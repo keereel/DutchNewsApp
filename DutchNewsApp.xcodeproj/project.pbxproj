@@ -21,6 +21,8 @@
 		B8B9EC70250170E400226503 /* HeadlinesFirstRowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B9EC6F250170E400226503 /* HeadlinesFirstRowCell.swift */; };
 		B8B9EC732501725D00226503 /* Cell+Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B9EC722501725D00226503 /* Cell+Identifier.swift */; };
 		B8B9EC76250174AF00226503 /* HeadlinesSecondRowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B9EC75250174AF00226503 /* HeadlinesSecondRowCell.swift */; };
+		B8B9EC7825029E0800226503 /* HeadlinesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B9EC7725029E0800226503 /* HeadlinesViewModel.swift */; };
+		B8B9EC7A25029E7300226503 /* HeadlinesAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B9EC7925029E7300226503 /* HeadlinesAssembly.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +63,8 @@
 		B8B9EC6F250170E400226503 /* HeadlinesFirstRowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlinesFirstRowCell.swift; sourceTree = "<group>"; };
 		B8B9EC722501725D00226503 /* Cell+Identifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cell+Identifier.swift"; sourceTree = "<group>"; };
 		B8B9EC75250174AF00226503 /* HeadlinesSecondRowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlinesSecondRowCell.swift; sourceTree = "<group>"; };
+		B8B9EC7725029E0800226503 /* HeadlinesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlinesViewModel.swift; sourceTree = "<group>"; };
+		B8B9EC7925029E7300226503 /* HeadlinesAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlinesAssembly.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +184,8 @@
 		B83F4F7625014FC1006DC824 /* Headlines */ = {
 			isa = PBXGroup;
 			children = (
+				B8B9EC7925029E7300226503 /* HeadlinesAssembly.swift */,
+				B8B9EC7725029E0800226503 /* HeadlinesViewModel.swift */,
 				B81D0289250009C8001C76B2 /* HeadlinesViewController.swift */,
 				B8B9EC6F250170E400226503 /* HeadlinesFirstRowCell.swift */,
 				B8B9EC75250174AF00226503 /* HeadlinesSecondRowCell.swift */,
@@ -335,12 +341,14 @@
 				B8B9EC70250170E400226503 /* HeadlinesFirstRowCell.swift in Sources */,
 				B8B9EC76250174AF00226503 /* HeadlinesSecondRowCell.swift in Sources */,
 				B8B9EC732501725D00226503 /* Cell+Identifier.swift in Sources */,
+				B8B9EC7A25029E7300226503 /* HeadlinesAssembly.swift in Sources */,
 				B8AAB54F250135CF009609B6 /* HeadlinesResponse.swift in Sources */,
 				B81D02BA25002826001C76B2 /* Article.swift in Sources */,
 				B81D028A250009C8001C76B2 /* HeadlinesViewController.swift in Sources */,
 				B83F4F72250146F5006DC824 /* HTTPURLResponse+successStatusCode.swift in Sources */,
 				B81D0286250009C8001C76B2 /* AppDelegate.swift in Sources */,
 				B83F4F742501471E006DC824 /* DataResponseError.swift in Sources */,
+				B8B9EC7825029E0800226503 /* HeadlinesViewModel.swift in Sources */,
 				B81D02B725002236001C76B2 /* NewsApiClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

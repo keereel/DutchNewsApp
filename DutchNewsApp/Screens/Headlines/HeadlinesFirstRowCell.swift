@@ -43,5 +43,14 @@ final class HeadlinesFirstRowCell: UICollectionViewCell {
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ]
         NSLayoutConstraint.activate(imageViewConstraints)
+        
+        titleView.translatesAutoresizingMaskIntoConstraints = false
+        let titleViewConstraints: [NSLayoutConstraint] = [
+            titleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            titleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            //titleView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            titleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ]
+        NSLayoutConstraint.activate(titleViewConstraints)
     }
 }

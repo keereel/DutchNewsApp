@@ -21,7 +21,7 @@ class HeadlinesViewController: UIViewController {
         //
         
         collectionView.dataSource = self
-        //collectionView.delegate = self
+        collectionView.delegate = self
         //collectionView.prefetchDataSource = self
         collectionView.register(HeadlinesFirstRowCell.self, forCellWithReuseIdentifier: HeadlinesFirstRowCell.identifier)
         collectionView.register(HeadlinesSecondRowCell.self, forCellWithReuseIdentifier: HeadlinesSecondRowCell.identifier)
@@ -30,6 +30,19 @@ class HeadlinesViewController: UIViewController {
         
         return collectionView
     }()
+    
+    private var viewModel: HeadlinesViewModel!
+
+    init(viewModel: HeadlinesViewModel) {
+        super.init(nibName: nil, bundle: nil)
+        self.viewModel = viewModel
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,17 +53,9 @@ class HeadlinesViewController: UIViewController {
         view.addSubview(collectionView)
         
         setConstraints()
-    }
-    
-    /*
-    private func configureCollectionView() {
-        collectionView.backgroundColor = .blue
         
-        let layout = UICollectionViewFlowLayout()
-        
-        collectionView.collectionViewLayout = layout
+        loadItems(lastIndexPath: nil)
     }
-    */
     
     private func setConstraints() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -69,7 +74,8 @@ class HeadlinesViewController: UIViewController {
 extension HeadlinesViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        //return 10
+        return viewModel.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -84,3 +90,58 @@ extension HeadlinesViewController: UICollectionViewDataSource {
     }
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
+extension HeadlinesViewController: UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        switch indexPath.row {
+        case 0:
+            return CGSize(width: collectionView.bounds.width, height: 50)
+        default:
+            return CGSize(width: collectionView.bounds.width/3, height: 50)
+        }
+        
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets.zero
+    }
+}
+
+// MARK: - Load
+extension HeadlinesViewController {
+    func loadItems(lastIndexPath: IndexPath?) {
+        viewModel.loadItems(lastIndexPath: lastIndexPath) { [weak self] (result: Result<[IndexPath], Error>) in
+            switch result {
+            case .success(let indexPaths):
+                // TODO
+                //self?.reloadItemsIfNeeded(indexPaths: indexPaths)
+                print("OK")
+            case .failure(let error):
+                // TODO
+                print("error")
+                //self?.alertService.showMessage(error.description, viewController: self)
+            }
+        }
+    }
+    
+    /*
+    func reloadItemIfNeeded(itemIndexPath indexPath: IndexPath) {
+        guard collectionView.indexPathsForVisibleItems.contains(indexPath) else {
+            return
+        }
+        
+        guard !collectionView.isDecelerating, !collectionView.isDragging else {
+            return
+        }
+        
+        collectionView.performBatchUpdates({ [weak self] in
+            self?.collectionView.reloadItems(at: [indexPath])
+        })
+    }
+    */
+}
