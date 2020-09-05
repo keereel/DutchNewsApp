@@ -14,7 +14,9 @@ class HeadlinesViewController: UIViewController {
         let collectionViewLayout = UICollectionViewFlowLayout()
         //collectionViewLayout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
         //collectionViewLayout.itemSize = CGSize(width: 60, height: 60)
-
+        collectionViewLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        collectionViewLayout.scrollDirection = .vertical
+        
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         //
         collectionView.backgroundColor = .blue
@@ -42,14 +44,15 @@ class HeadlinesViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        print("DEINIT HeadlinesViewController")
+    }
+    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("STARTED! 20:28")
-        
-        //configureCollectionView()
         view.addSubview(collectionView)
         
         setConstraints()
@@ -85,6 +88,7 @@ extension HeadlinesViewController: UICollectionViewDataSource {
         }
 
         headlineCell.backgroundColor = .yellow
+        viewModel.configure(cell: headlineCell, indexPath: indexPath, width: collectionView.bounds.width)
         
         return headlineCell
     }
@@ -93,6 +97,7 @@ extension HeadlinesViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegateFlowLayout
 extension HeadlinesViewController: UICollectionViewDelegateFlowLayout {
 
+    /*
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch indexPath.row {
         case 0:
@@ -102,7 +107,8 @@ extension HeadlinesViewController: UICollectionViewDelegateFlowLayout {
         }
         
     }
-
+    */
+ 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
@@ -119,14 +125,21 @@ extension HeadlinesViewController {
             switch result {
             case .success(let indexPaths):
                 // TODO
-                //self?.reloadItemsIfNeeded(indexPaths: indexPaths)
                 print("OK")
+                self?.reloadItemsIfNeeded(indexPaths: indexPaths)
+
             case .failure(let error):
                 // TODO
                 print("error")
                 //self?.alertService.showMessage(error.description, viewController: self)
             }
         }
+    }
+    
+    func reloadItemsIfNeeded(indexPaths: [IndexPath]) {
+        collectionView.performBatchUpdates({ [weak self] in
+            self?.collectionView.reloadItems(at: indexPaths)
+        })
     }
     
     /*

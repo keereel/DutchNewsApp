@@ -23,6 +23,7 @@
 		B8B9EC76250174AF00226503 /* HeadlinesSecondRowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B9EC75250174AF00226503 /* HeadlinesSecondRowCell.swift */; };
 		B8B9EC7825029E0800226503 /* HeadlinesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B9EC7725029E0800226503 /* HeadlinesViewModel.swift */; };
 		B8B9EC7A25029E7300226503 /* HeadlinesAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B9EC7925029E7300226503 /* HeadlinesAssembly.swift */; };
+		B8B9EC7C2503D64A00226503 /* test.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8B9EC7B2503D64A00226503 /* test.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		B8B9EC75250174AF00226503 /* HeadlinesSecondRowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlinesSecondRowCell.swift; sourceTree = "<group>"; };
 		B8B9EC7725029E0800226503 /* HeadlinesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlinesViewModel.swift; sourceTree = "<group>"; };
 		B8B9EC7925029E7300226503 /* HeadlinesAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlinesAssembly.swift; sourceTree = "<group>"; };
+		B8B9EC7B2503D64A00226503 /* test.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = test.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 				B8B9EC7725029E0800226503 /* HeadlinesViewModel.swift */,
 				B81D0289250009C8001C76B2 /* HeadlinesViewController.swift */,
 				B8B9EC6F250170E400226503 /* HeadlinesFirstRowCell.swift */,
+				B8B9EC7B2503D64A00226503 /* test.xib */,
 				B8B9EC75250174AF00226503 /* HeadlinesSecondRowCell.swift */,
 			);
 			path = Headlines;
@@ -312,6 +315,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8B9EC7C2503D64A00226503 /* test.xib in Resources */,
 				B81D0292250009CC001C76B2 /* LaunchScreen.storyboard in Resources */,
 				B81D028F250009CC001C76B2 /* Assets.xcassets in Resources */,
 			);

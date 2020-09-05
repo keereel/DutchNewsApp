@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol HeadlinesViewModel {
     var count: Int { get }
@@ -14,6 +15,8 @@ protocol HeadlinesViewModel {
     func item(for indexPath: IndexPath) -> Article
     
     func loadItems(lastIndexPath: IndexPath?, completion: @escaping (Result<[IndexPath], Error>) -> Void)
+    
+    func configure(cell: HeadlinesCellOutput, indexPath: IndexPath, width: CGFloat)
 }
 
 final class HeadlinesViewModelImpl: HeadlinesViewModel {
@@ -53,12 +56,23 @@ final class HeadlinesViewModelImpl: HeadlinesViewModel {
                 self.items.append(contentsOf: headlinesResponse.articles)
                 print("HeadlinesViewModelImpl.loadItems success")
                 headlinesResponse.articles.forEach{ print("  \($0.title)")}
-                completion(Result.success([]))
+                DispatchQueue.main.async {
+                    completion(Result.success([]))
+                }
             case .failure(let error):
                 // TODO
-                print("error \(error)")
+                //print("error \(error)")
+                completion(Result.failure(error))
             }
         }
     }
     
+    // MARK: Configure cells
+    func configure(cell: HeadlinesCellOutput, indexPath: IndexPath, width: CGFloat) {
+        let item = items[indexPath.row]
+        
+        cell.configure(title: item.title ?? "", width: width)
+        
+        //cell.setTitle(item.title ?? "")
+    }
 }
