@@ -11,15 +11,16 @@ import UIKit
 class HeadlinesViewController: UIViewController {
 
     private lazy var collectionView: UICollectionView = {
-        let collectionViewLayout = UICollectionViewFlowLayout()
+        //let collectionViewLayout = UICollectionViewFlowLayout()
+        let flowLayout = HeadlinesFlowLayout()
         //collectionViewLayout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
         //collectionViewLayout.itemSize = CGSize(width: 60, height: 60)
-        collectionViewLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        collectionViewLayout.minimumLineSpacing = 0
-        collectionViewLayout.minimumInteritemSpacing = 0
-        collectionViewLayout.scrollDirection = .vertical
+        flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        flowLayout.minimumLineSpacing = 1
+        flowLayout.minimumInteritemSpacing = 1
+        flowLayout.scrollDirection = .vertical
         
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         //
         collectionView.backgroundColor = .blue
         //
@@ -129,7 +130,7 @@ extension HeadlinesViewController: UICollectionViewDelegateFlowLayout {
     */
  
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        return 1
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
