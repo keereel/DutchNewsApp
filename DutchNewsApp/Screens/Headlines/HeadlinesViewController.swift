@@ -15,6 +15,8 @@ class HeadlinesViewController: UIViewController {
         //collectionViewLayout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
         //collectionViewLayout.itemSize = CGSize(width: 60, height: 60)
         collectionViewLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        collectionViewLayout.minimumLineSpacing = 0
+        collectionViewLayout.minimumInteritemSpacing = 0
         collectionViewLayout.scrollDirection = .vertical
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
@@ -82,15 +84,32 @@ extension HeadlinesViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HeadlinesFirstRowCell.identifier, for: indexPath)
-        guard let headlineCell = cell as? HeadlinesFirstRowCell else {
-            return cell
-        }
-
-        headlineCell.backgroundColor = .yellow
-        viewModel.configure(cell: headlineCell, indexPath: indexPath, width: collectionView.bounds.width)
         
-        return headlineCell
+        switch indexPath.item {
+        /*
+        case 0:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HeadlinesFirstRowCell.identifier, for: indexPath)
+            guard let headlineCell = cell as? HeadlinesFirstRowCell else {
+                return cell
+            }
+
+            headlineCell.backgroundColor = .yellow
+            viewModel.configure(cell: headlineCell, indexPath: indexPath, width: collectionView.bounds.width)
+            
+            return headlineCell
+        */
+        //case 1:
+        default:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HeadlinesSecondRowCell.identifier, for: indexPath)
+            guard let headlineCell = cell as? HeadlinesSecondRowCell else {
+                return cell
+            }
+
+            headlineCell.backgroundColor = .yellow
+            viewModel.configure(cell: headlineCell, indexPath: indexPath, width: collectionView.bounds.width/2 - 0.5)
+            
+            return headlineCell
+        }
     }
 }
 
@@ -100,17 +119,17 @@ extension HeadlinesViewController: UICollectionViewDelegateFlowLayout {
     /*
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch indexPath.row {
-        case 0:
-            return CGSize(width: collectionView.bounds.width, height: 50)
+        //case 0:
+        //    return CGSize(width: collectionView.bounds.width, height: 50)
         default:
-            return CGSize(width: collectionView.bounds.width/3, height: 50)
+            return CGSize(width: collectionView.bounds.width/2, height: 20)
         }
         
     }
     */
  
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return 0
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

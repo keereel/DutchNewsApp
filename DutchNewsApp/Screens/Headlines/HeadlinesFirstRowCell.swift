@@ -48,15 +48,13 @@ final class HeadlinesFirstRowCell: UICollectionViewCell {
         setupCell()
     }
     
+    // MARK: - Setup UI
     private func setupCell() {
         contentView.addSubview(imageView)
         contentView.addSubview(titleView)
         
         titleView.numberOfLines = 0
         titleView.backgroundColor = .green
-        //
-        
-        //
         
         setConstraints()
     }
@@ -74,27 +72,23 @@ final class HeadlinesFirstRowCell: UICollectionViewCell {
         NSLayoutConstraint.activate(imageViewConstraints)
         
         titleView.translatesAutoresizingMaskIntoConstraints = false
-        
         let titleViewConstraints: [NSLayoutConstraint] = [
             titleView.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
             titleView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor),
-            titleView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
+            titleView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor)
         ]
         titleViewConstraints.forEach { $0.priority = .defaultHigh }
         NSLayoutConstraint.activate(titleViewConstraints)
-        
-        
         
         contentView.translatesAutoresizingMaskIntoConstraints = false
         let contentViewConstraints: [NSLayoutConstraint] = [
             contentView.leftAnchor.constraint(equalTo: leftAnchor),
             contentView.rightAnchor.constraint(equalTo: rightAnchor),
             contentView.topAnchor.constraint(equalTo: topAnchor),
-            contentView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            contentView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ]
         contentViewConstraints.forEach { $0.priority = .defaultHigh }
         NSLayoutConstraint.activate(contentViewConstraints)
-        
         
         widthConstraint = NSLayoutConstraint(
             item: contentView,
@@ -104,7 +98,7 @@ final class HeadlinesFirstRowCell: UICollectionViewCell {
             toItem: nil,
             attribute: .notAnAttribute,
             multiplier: 1,
-            constant: 200)
+            constant: 1)
         widthConstraint.priority = .defaultHigh
         //NSLayoutConstraint.activate([widthConstraint])
     }
