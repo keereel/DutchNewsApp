@@ -10,41 +10,52 @@ import Foundation
 import UIKit
 
 final class HeadlinesFlowLayout: UICollectionViewFlowLayout {
-
-    private var cache: [UICollectionViewLayoutAttributes] = []
     
-    /*
-    override func prepare() {
-        guard let collectionView = collectionView else { return }
-        
-        print("HeadlinesFlowLayout prepare")
-        
-        for item in 0..<collectionView.numberOfItems(inSection: 0) {
-            let indexPath = IndexPath(item: item, section: 0)
-            
-            let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-            //attributes.frame = insetFrame
-            print("item \(item) attributes.frame \(attributes.bounds)")
-            cache.append(attributes)
-            
-        }
+    private var cellSpacing: CGFloat {
+        return minimumInteritemSpacing
     }
-    */
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        let attrs = super.layoutAttributesForElements(in: rect)
+        let attributes = super.layoutAttributesForElements(in: rect)
         
+        //print("INVOKED HeadlinesFlowLayout.layoutAttributesForElements")
         
+        var minYInRow: CGFloat = 0
+        var someBottomPointInRow: CGFloat = 0
+        var currentRow: [UICollectionViewLayoutAttributes] = []
+        attributes?.forEach { (itemAttributes) in
+            //print("  \(itemAttributes.indexPath.item) attribute.frame \(itemAttributes.frame.origin)")
+            if itemAttributes.frame.origin.y >= someBottomPointInRow {
+                //print("  new row, old minYInRow \(minYInRow)")
+                /*
+                It means new row started, so, let's set minY as origin.y for each row item
+                 and then clear currentRow, minYInRow an someBottomPointInRow for the new current
+                 row
+                */
+                currentRow.forEach { (currenRowItemAttributes) in
+                    //print("--row \(currenRowItemAttributes.indexPath.item) y set \(minYInRow)")
+                    currenRowItemAttributes.frame.origin.y = minYInRow
+                }
+                currentRow = []
+                minYInRow = itemAttributes.frame.origin.y
+                someBottomPointInRow = itemAttributes.frame.maxY
+            }
+            minYInRow = min(minYInRow, itemAttributes.frame.origin.y)
+            currentRow.append(itemAttributes)
+            //print("  minYInRow \(minYInRow)")
+        }
         
-        return attrs
+        return attributes
     }
     
+    /*
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         
-        let attrs = super.layoutAttributesForItem(at: indexPath)!
-        print("item \(indexPath.item) attributes.frame \(attrs.frame)")
+        print("INVOKED HeadlinesFlowLayout.layoutAttributesForItem")
+        let itemAttributes = super.layoutAttributesForItem(at: indexPath)!
+        print("  item \(indexPath.item) attributes.frame \(itemAttributes.frame)")
         
-        return attrs
-        //return cache[indexPath.item]
+        return itemAttributes
     }
+    */
 }
