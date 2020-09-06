@@ -12,6 +12,7 @@ final class HeadlinesSecondRowCell: UICollectionViewCell {
     
     private var imageView: UIImageView = UIImageView()
     private var titleView: UILabel = UILabel()
+    
     private var widthConstraint: NSLayoutConstraint!
     
     // MARK: - Init

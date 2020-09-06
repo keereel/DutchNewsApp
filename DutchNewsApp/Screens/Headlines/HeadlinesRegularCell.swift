@@ -12,6 +12,7 @@ final class HeadlinesRegularCell: UICollectionViewCell {
     
     private var imageView: UIImageView = UIImageView()
     private var titleView: UILabel = UILabel()
+    
     private var widthConstraint: NSLayoutConstraint!
     
     // MARK: - Init
@@ -56,7 +57,8 @@ final class HeadlinesRegularCell: UICollectionViewCell {
             titleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             titleView.trailingAnchor.constraint(equalTo: imageView.leadingAnchor),
             titleView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            titleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            titleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            titleView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ]
         titleViewConstraints.forEach { $0.priority = .required }
         NSLayoutConstraint.activate(titleViewConstraints)
