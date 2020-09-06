@@ -21,7 +21,10 @@ protocol HeadlinesViewModel {
 
 final class HeadlinesViewModelImpl: HeadlinesViewModel {
 
-    //private let objectsPerPage = 10
+    private let firstPageIndex = 1
+    private let objectsPerPage = 10
+    
+    
     private let apiClient: NewsApiClient = NewsApiClientImpl()
     
     private let itemsQueue = DispatchQueue(label: "HeadlinesViewModel.itemsQueue", attributes: .concurrent)
@@ -53,12 +56,29 @@ final class HeadlinesViewModelImpl: HeadlinesViewModel {
         apiClient.fetchHeadlines(page: 1) { (result) in
             switch result {
             case .success(let headlinesResponse):
+                /*
                 self.items.append(contentsOf: headlinesResponse.articles)
                 print("HeadlinesViewModelImpl.loadItems success")
                 headlinesResponse.articles.forEach{ print("  \($0.title)")}
-                DispatchQueue.main.async {
-                    completion(Result.success([]))
+                 DispatchQueue.main.async {
+                     completion(Result.success([]))
+                 }
+                */
+                
+                // stopped here 20200906 2114
+                let page = 1 // TODO calculate page when implement pagination
+                let firstIndexOnPage = self.minIndex(onPage: page)
+                let lastIndexOnPage = firstIndexOnPage + self.items.count - 1
+                objectsQueue.sync(flags: .barrier) {
+                  for index in firstIndexOnPage...lastIndexOnPage {
+                    if self.objects.count - 1 < index {
+                      self.objects.append(artObjects[index-firstIndexOnPage])
+                    } else {
+                      self.objects[index] = artObjects[index-firstIndexOnPage]
+                    }
+                  }
                 }
+                
             case .failure(let error):
                 // TODO
                 //print("error \(error)")
@@ -68,11 +88,22 @@ final class HeadlinesViewModelImpl: HeadlinesViewModel {
     }
     
     // MARK: Configure cells
+    
     func configure(cell: HeadlinesCellOutput, indexPath: IndexPath, width: CGFloat) {
         let item = items[indexPath.row]
         
         cell.configure(title: item.title ?? "", source: item.source.name ?? "", width: width)
         
         //cell.setTitle(item.title ?? "")
+    }
+    
+    // MARK: Helpers
+    
+    func minIndex(onPage page: Int) -> Int {
+      return (page - firstPageIndex) * objectsPerPage
+    }
+    
+    func maxIndex(onPage page: Int) -> Int {
+      return (page - firstPageIndex + 1) * objectsPerPage - 1
     }
 }

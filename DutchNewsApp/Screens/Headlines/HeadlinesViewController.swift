@@ -166,9 +166,36 @@ extension HeadlinesViewController {
     }
     
     func reloadItemsIfNeeded(indexPaths: [IndexPath]) {
+        //collectionView.reloadData()
+        
+        print("ebal rot indexPaths.count:\(indexPaths.count)")
+        //collectionView.performBatchUpdates({ [weak self] in
+            //self?.collectionView.reloadItems(at: indexPaths)
+            indexPaths.forEach { (indexPath) in
+                if indexPath.item > collectionView.numberOfItems(inSection: 0) - 1 {
+                    collectionView.insertItems(at: [indexPath])
+                    print("inserted")
+                }
+            }
+        //})
+        
+        /*
+        tableView.beginUpdates()
+        indexPaths.forEach { (indexPath) in
+          if indexPath.row > tableView.numberOfRows(inSection: 0) - 1 {
+            tableView.insertRows(at: [indexPath], with: .none)
+          }
+        }
+        tableView.endUpdates()
+        */
+        
+        //collectionView.reloadItems(at: indexPaths)
+        // TODO pagination
+        /*
         collectionView.performBatchUpdates({ [weak self] in
             self?.collectionView.reloadItems(at: indexPaths)
         })
+        */
     }
     
     /*
