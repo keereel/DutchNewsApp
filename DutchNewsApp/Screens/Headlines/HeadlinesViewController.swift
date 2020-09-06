@@ -30,6 +30,7 @@ class HeadlinesViewController: UIViewController {
         //collectionView.prefetchDataSource = self
         collectionView.register(HeadlinesFirstRowCell.self, forCellWithReuseIdentifier: HeadlinesFirstRowCell.identifier)
         collectionView.register(HeadlinesSecondRowCell.self, forCellWithReuseIdentifier: HeadlinesSecondRowCell.identifier)
+        collectionView.register(HeadlinesRegularCell.self, forCellWithReuseIdentifier: HeadlinesRegularCell.identifier)
         //collectionView.automaticallyAdjustsScrollIndicatorInsets = true
         //collectionView.backgroundColor = .clear
         
@@ -87,7 +88,7 @@ extension HeadlinesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         switch indexPath.item {
-        /*
+        
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HeadlinesFirstRowCell.identifier, for: indexPath)
             guard let headlineCell = cell as? HeadlinesFirstRowCell else {
@@ -98,9 +99,7 @@ extension HeadlinesViewController: UICollectionViewDataSource {
             viewModel.configure(cell: headlineCell, indexPath: indexPath, width: collectionView.bounds.width)
             
             return headlineCell
-        */
-        //case 1:
-        default:
+        case 1, 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HeadlinesSecondRowCell.identifier, for: indexPath)
             guard let headlineCell = cell as? HeadlinesSecondRowCell else {
                 return cell
@@ -108,6 +107,16 @@ extension HeadlinesViewController: UICollectionViewDataSource {
 
             headlineCell.backgroundColor = .yellow
             viewModel.configure(cell: headlineCell, indexPath: indexPath, width: collectionView.bounds.width/2 - 0.5)
+            
+            return headlineCell
+        default:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HeadlinesRegularCell.identifier, for: indexPath)
+            guard let headlineCell = cell as? HeadlinesRegularCell else {
+                return cell
+            }
+
+            headlineCell.backgroundColor = .yellow
+            viewModel.configure(cell: headlineCell, indexPath: indexPath, width: collectionView.bounds.width)
             
             return headlineCell
         }

@@ -44,6 +44,9 @@ final class HeadlinesFlowLayout: UICollectionViewFlowLayout {
             currentRow.append(itemAttributes)
             //print("  minYInRow \(minYInRow)")
         }
+        currentRow.forEach { (currenRowItemAttributes) in
+            currenRowItemAttributes.frame.origin.y = minYInRow
+        }
         
         return attributes
     }

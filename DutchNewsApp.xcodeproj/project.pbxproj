@@ -25,6 +25,7 @@
 		B8B9EC7A25029E7300226503 /* HeadlinesAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B9EC7925029E7300226503 /* HeadlinesAssembly.swift */; };
 		B8B9EC7C2503D64A00226503 /* test.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8B9EC7B2503D64A00226503 /* test.xib */; };
 		B8B9EC7E2503E78F00226503 /* HeadlinesFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B9EC7D2503E78E00226503 /* HeadlinesFlowLayout.swift */; };
+		B8B9EC802505199700226503 /* HeadlinesRegularCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B9EC7F2505199700226503 /* HeadlinesRegularCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		B8B9EC7925029E7300226503 /* HeadlinesAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlinesAssembly.swift; sourceTree = "<group>"; };
 		B8B9EC7B2503D64A00226503 /* test.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = test.xib; sourceTree = "<group>"; };
 		B8B9EC7D2503E78E00226503 /* HeadlinesFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlinesFlowLayout.swift; sourceTree = "<group>"; };
+		B8B9EC7F2505199700226503 /* HeadlinesRegularCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlinesRegularCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +195,7 @@
 				B81D0289250009C8001C76B2 /* HeadlinesViewController.swift */,
 				B8B9EC6F250170E400226503 /* HeadlinesFirstRowCell.swift */,
 				B8B9EC75250174AF00226503 /* HeadlinesSecondRowCell.swift */,
+				B8B9EC7F2505199700226503 /* HeadlinesRegularCell.swift */,
 				B8B9EC7D2503E78E00226503 /* HeadlinesFlowLayout.swift */,
 				B8B9EC7B2503D64A00226503 /* test.xib */,
 			);
@@ -357,6 +360,7 @@
 				B81D0286250009C8001C76B2 /* AppDelegate.swift in Sources */,
 				B83F4F742501471E006DC824 /* DataResponseError.swift in Sources */,
 				B8B9EC7825029E0800226503 /* HeadlinesViewModel.swift in Sources */,
+				B8B9EC802505199700226503 /* HeadlinesRegularCell.swift in Sources */,
 				B81D02B725002236001C76B2 /* NewsApiClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
