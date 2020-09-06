@@ -31,10 +31,10 @@ final class HeadlinesRegularCell: UICollectionViewCell {
     private func setupCell() {
         contentView.addSubview(imageView)
         contentView.addSubview(titleView)
+        contentView.addSubview(sourceView)
         
         imageView.backgroundColor = .white
         
-        //titleView.numberOfLines = 0
         titleView.backgroundColor = .green
         
         setConstraints()
@@ -47,19 +47,28 @@ final class HeadlinesRegularCell: UICollectionViewCell {
             imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             //imageView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor),
             //imageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor),
-            imageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.3),
+            imageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.4),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 16/9)
         ]
         imageViewConstraints.forEach { $0.priority = .required }
         NSLayoutConstraint.activate(imageViewConstraints)
         
+        sourceView.translatesAutoresizingMaskIntoConstraints = false
+        let sourceViewConstraints: [NSLayoutConstraint] = [
+            sourceView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            sourceView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+        ]
+        sourceViewConstraints.forEach { $0.priority = .defaultHigh }
+        NSLayoutConstraint.activate(sourceViewConstraints)
+        
         titleView.translatesAutoresizingMaskIntoConstraints = false
         let titleViewConstraints: [NSLayoutConstraint] = [
             titleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             titleView.trailingAnchor.constraint(equalTo: imageView.leadingAnchor),
-            titleView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            //titleView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            titleView.topAnchor.constraint(equalTo: sourceView.bottomAnchor),
             titleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            titleView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            //titleView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ]
         titleViewConstraints.forEach { $0.priority = .required }
         NSLayoutConstraint.activate(titleViewConstraints)

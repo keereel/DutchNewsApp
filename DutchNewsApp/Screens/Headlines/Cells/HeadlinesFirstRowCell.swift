@@ -32,7 +32,6 @@ final class HeadlinesFirstRowCell: UICollectionViewCell {
         contentView.addSubview(imageView)
         contentView.addSubview(titleView)
         contentView.addSubview(sourceView)
-        sourceView.text = "Test source"
         
         titleView.font = UIFont.systemFont(ofSize: 21, weight: UIFont.Weight.bold)
         titleView.backgroundColor = .green
