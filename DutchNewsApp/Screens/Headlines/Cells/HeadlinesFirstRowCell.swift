@@ -1,5 +1,5 @@
 //
-//  HeadlinesSecondRowCell.swift
+//  HeadlinesFirstRowCell.swift
 //  DutchNewsApp
 //
 //  Created by Kirill Sedykh on 03.09.2020.
@@ -8,13 +8,14 @@
 
 import UIKit
 
-final class HeadlinesSecondRowCell: UICollectionViewCell {
+final class HeadlinesFirstRowCell: UICollectionViewCell {
     
     private var imageView: UIImageView = UIImageView()
-    private var titleView: UILabel = UILabel()
+    private var titleView: UILabel = TitleLabel()
+    private var sourceView: UILabel = SourceLabel()
     
     private var widthConstraint: NSLayoutConstraint!
-    
+ 
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -30,10 +31,10 @@ final class HeadlinesSecondRowCell: UICollectionViewCell {
     private func setupCell() {
         contentView.addSubview(imageView)
         contentView.addSubview(titleView)
+        contentView.addSubview(sourceView)
+        sourceView.text = "Test source"
         
-        imageView.backgroundColor = .white
-        
-        titleView.numberOfLines = 0
+        titleView.font = UIFont.systemFont(ofSize: 21, weight: UIFont.Weight.bold)
         titleView.backgroundColor = .green
         
         setConstraints()
@@ -45,7 +46,7 @@ final class HeadlinesSecondRowCell: UICollectionViewCell {
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            //imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 16/9)
         ]
         imageViewConstraints.forEach { $0.priority = .defaultHigh }
@@ -53,27 +54,34 @@ final class HeadlinesSecondRowCell: UICollectionViewCell {
         
         titleView.translatesAutoresizingMaskIntoConstraints = false
         let titleViewConstraints: [NSLayoutConstraint] = [
-            titleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            titleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            titleView.topAnchor.constraint(equalTo: imageView.bottomAnchor),
-            titleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            titleView.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
+            titleView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor),
+            titleView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor)
         ]
-        titleViewConstraints.forEach { $0.priority = .required }
+        titleViewConstraints.forEach { $0.priority = .defaultHigh }
         NSLayoutConstraint.activate(titleViewConstraints)
         
+        sourceView.translatesAutoresizingMaskIntoConstraints = false
+        let sourceViewConstraints: [NSLayoutConstraint] = [
+            sourceView.topAnchor.constraint(equalTo: imageView.topAnchor),
+            sourceView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor)
+        ]
+        sourceViewConstraints.forEach { $0.priority = .defaultHigh }
+        NSLayoutConstraint.activate(sourceViewConstraints)
         
         contentView.translatesAutoresizingMaskIntoConstraints = false
         let contentViewConstraints: [NSLayoutConstraint] = [
-            contentView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            contentView.leftAnchor.constraint(equalTo: leftAnchor),
+            contentView.rightAnchor.constraint(equalTo: rightAnchor),
             contentView.topAnchor.constraint(equalTo: topAnchor),
-            contentView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            contentView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ]
         contentViewConstraints.forEach { $0.priority = .defaultHigh }
         NSLayoutConstraint.activate(contentViewConstraints)
         
         widthConstraint = NSLayoutConstraint(
             item: contentView,
+            //item: titleView,
             attribute: .width,
             relatedBy: .equal,
             toItem: nil,
@@ -81,27 +89,25 @@ final class HeadlinesSecondRowCell: UICollectionViewCell {
             multiplier: 1,
             constant: 1)
         widthConstraint.priority = .defaultHigh
-        
     }
-    
-    /*
-    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-        
-        titleView.preferredMaxLayoutWidth = layoutAttributes.size.width - contentView.layoutMargins.left - contentView.layoutMargins.left
-        layoutAttributes.bounds.size.height = systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
-        return layoutAttributes
-    }
-    */
-    
 }
 
-extension HeadlinesSecondRowCell: HeadlinesCellOutput {
+extension HeadlinesFirstRowCell: HeadlinesCellOutput {
     
-    func configure(title: String, width: CGFloat) {
+    func configure(title: String, source: String, width: CGFloat) {
         titleView.text = title
+        sourceView.text = source
         
-        print("HeadlinesSecondRowCell width = \(width)")
+        print("HeadlinesFirstRowCell width = \(width)")
         widthConstraint.constant = width
         widthConstraint.isActive = true
     }
+    
+    /*
+    func setTitle(_ text: String) {
+        titleView.text = text
+    }
+    */
 }
+
+

@@ -71,7 +71,7 @@ final class HeadlinesViewModelImpl: HeadlinesViewModel {
     func configure(cell: HeadlinesCellOutput, indexPath: IndexPath, width: CGFloat) {
         let item = items[indexPath.row]
         
-        cell.configure(title: item.title ?? "", width: width)
+        cell.configure(title: item.title ?? "", source: item.source.name ?? "", width: width)
         
         //cell.setTitle(item.title ?? "")
     }
