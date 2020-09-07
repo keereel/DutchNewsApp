@@ -173,7 +173,7 @@ extension HeadlinesViewController: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 80.0)
+        return CGSize(width: collectionView.bounds.width, height: 85.0)
     }
 }
 
