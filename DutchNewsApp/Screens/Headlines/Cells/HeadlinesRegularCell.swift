@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class HeadlinesRegularCell: UICollectionViewCell {
     
@@ -32,8 +33,6 @@ final class HeadlinesRegularCell: UICollectionViewCell {
         contentView.addSubview(imageView)
         contentView.addSubview(titleView)
         contentView.addSubview(sourceView)
-        
-        imageView.backgroundColor = .white
         
         titleView.backgroundColor = .green
         
@@ -93,8 +92,8 @@ final class HeadlinesRegularCell: UICollectionViewCell {
             attribute: .notAnAttribute,
             multiplier: 1,
             constant: 1)
-        widthConstraint.priority = .defaultHigh
-        
+        //widthConstraint.priority = .defaultHigh
+        widthConstraint.priority = .required
     }
 }
 
@@ -107,5 +106,22 @@ extension HeadlinesRegularCell: HeadlinesCellOutput {
         print("HeadlinesSecondRowCell width = \(width)")
         widthConstraint.constant = width
         widthConstraint.isActive = true
+    }
+    
+    func setImagePath(_ imagePath: String?) {
+        guard let imagePath = imagePath else {
+            imageView.setPlaceholder()
+            return
+        }
+        
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        
+        let url = URL(string: imagePath)
+        let scale = UIScreen.main.scale
+        let resizingProcessor = ResizingImageProcessor(referenceSize: CGSize(width: 100 * scale, height: 100 * scale), mode: .aspectFill)
+        imageView.kf.indicatorType = .activity
+        imageView.kf.setImage(with: url, options: [.backgroundDecode,
+                                                   .processor(resizingProcessor)])
     }
 }

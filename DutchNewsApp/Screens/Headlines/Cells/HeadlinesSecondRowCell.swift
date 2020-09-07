@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class HeadlinesSecondRowCell: UICollectionViewCell {
     
@@ -33,8 +34,6 @@ final class HeadlinesSecondRowCell: UICollectionViewCell {
         contentView.addSubview(titleView)
         contentView.addSubview(sourceView)
         
-        imageView.backgroundColor = .white
-        
         titleView.backgroundColor = .green
         
         setConstraints()
@@ -46,9 +45,11 @@ final class HeadlinesSecondRowCell: UICollectionViewCell {
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 16/9)
         ]
         imageViewConstraints.forEach { $0.priority = .defaultHigh }
+        //imageViewConstraints.forEach { $0.priority = .required }
         NSLayoutConstraint.activate(imageViewConstraints)
         
         sourceView.translatesAutoresizingMaskIntoConstraints = false
@@ -79,6 +80,7 @@ final class HeadlinesSecondRowCell: UICollectionViewCell {
             contentView.bottomAnchor.constraint(equalTo: bottomAnchor),
         ]
         contentViewConstraints.forEach { $0.priority = .defaultHigh }
+        //contentViewConstraints.forEach { $0.priority = .required }
         NSLayoutConstraint.activate(contentViewConstraints)
         
         widthConstraint = NSLayoutConstraint(
@@ -89,7 +91,9 @@ final class HeadlinesSecondRowCell: UICollectionViewCell {
             attribute: .notAnAttribute,
             multiplier: 1,
             constant: 1)
-        widthConstraint.priority = .defaultHigh
+        //widthConstraint.priority = .defaultHigh
+        widthConstraint.priority = .required
+
         
     }
     
@@ -113,5 +117,22 @@ extension HeadlinesSecondRowCell: HeadlinesCellOutput {
         print("HeadlinesSecondRowCell width = \(width)")
         widthConstraint.constant = width
         widthConstraint.isActive = true
+    }
+    
+    func setImagePath(_ imagePath: String?) {
+        guard let imagePath = imagePath else {
+            imageView.setPlaceholder()
+            return
+        }
+        
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        
+        let url = URL(string: imagePath)
+        let scale = UIScreen.main.scale
+        let resizingProcessor = ResizingImageProcessor(referenceSize: CGSize(width: 100 * scale, height: 100 * scale), mode: .aspectFill)
+        imageView.kf.indicatorType = .activity
+        imageView.kf.setImage(with: url, options: [.backgroundDecode,
+                                                   .processor(resizingProcessor)])
     }
 }

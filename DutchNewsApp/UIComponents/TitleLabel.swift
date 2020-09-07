@@ -24,8 +24,7 @@ final class TitleLabel: UILabel {
     
     private func commonInit() {
         font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.bold)
-        textColor = .black
-        //backgroundColor = .blueLink
+        textColor = .white
         numberOfLines = 0
     }
 }

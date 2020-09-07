@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class HeadlinesFirstRowCell: UICollectionViewCell {
     
@@ -34,7 +35,7 @@ final class HeadlinesFirstRowCell: UICollectionViewCell {
         contentView.addSubview(sourceView)
         
         titleView.font = UIFont.systemFont(ofSize: 21, weight: UIFont.Weight.bold)
-        titleView.backgroundColor = .green
+        //titleView.backgroundColor = .green
         
         setConstraints()
     }
@@ -48,7 +49,7 @@ final class HeadlinesFirstRowCell: UICollectionViewCell {
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 16/9)
         ]
-        imageViewConstraints.forEach { $0.priority = .defaultHigh }
+        imageViewConstraints.forEach { $0.priority = .required }
         NSLayoutConstraint.activate(imageViewConstraints)
         
         titleView.translatesAutoresizingMaskIntoConstraints = false
@@ -76,6 +77,7 @@ final class HeadlinesFirstRowCell: UICollectionViewCell {
             contentView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ]
         contentViewConstraints.forEach { $0.priority = .defaultHigh }
+        //contentViewConstraints.forEach { $0.priority = .required }
         NSLayoutConstraint.activate(contentViewConstraints)
         
         widthConstraint = NSLayoutConstraint(
@@ -87,7 +89,8 @@ final class HeadlinesFirstRowCell: UICollectionViewCell {
             attribute: .notAnAttribute,
             multiplier: 1,
             constant: 1)
-        widthConstraint.priority = .defaultHigh
+        //widthConstraint.priority = .defaultHigh
+        widthConstraint.priority = .required
     }
 }
 
@@ -102,11 +105,22 @@ extension HeadlinesFirstRowCell: HeadlinesCellOutput {
         widthConstraint.isActive = true
     }
     
-    /*
-    func setTitle(_ text: String) {
-        titleView.text = text
+    func setImagePath(_ imagePath: String?) {
+        guard let imagePath = imagePath else {
+            imageView.setPlaceholder()
+            return
+        }
+        
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        
+        let url = URL(string: imagePath)
+        let scale = UIScreen.main.scale
+        let resizingProcessor = ResizingImageProcessor(referenceSize: CGSize(width: 100 * scale, height: 100 * scale), mode: .aspectFill)
+        imageView.kf.indicatorType = .activity
+        imageView.kf.setImage(with: url, options: [.backgroundDecode,
+                                                   .processor(resizingProcessor)])
     }
-    */
 }
 
 

@@ -133,7 +133,9 @@ final class HeadlinesViewModelImpl: HeadlinesViewModel {
         let item = items[indexPath.row]
         
         cell.configure(title: item.title ?? "", source: item.source.name ?? "", width: width)
-
+        //if let urlToImage = item.urlToImage {
+        cell.setImagePath(item.urlToImage)
+        //}
     }
     
     // MARK: Helpers
