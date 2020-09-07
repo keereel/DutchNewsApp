@@ -153,43 +153,38 @@ extension HeadlinesViewController {
         viewModel.loadItems(lastIndexPath: lastIndexPath) { [weak self] (result: Result<[IndexPath], Error>) in
             switch result {
             case .success(let indexPaths):
-                // TODO
-                print("OK")
-                self?.reloadItemsIfNeeded(indexPaths: indexPaths)
-
+                self?.refreshCollectionView(indexPaths: indexPaths)
             case .failure(let error):
                 // TODO
-                print("error")
+                print("error \(error)")
                 //self?.alertService.showMessage(error.description, viewController: self)
             }
         }
     }
     
-    func reloadItemsIfNeeded(indexPaths: [IndexPath]) {
-        //collectionView.reloadData()
-        
-        print("ebal rot indexPaths.count:\(indexPaths.count)")
+    func refreshCollectionView(indexPaths: [IndexPath]) {
+        print("  indexPaths.count:\(indexPaths.count)")
+        guard indexPaths.count > 0 else { return }
+        if indexPaths[0].item == 0 {
+            collectionView.reloadData()
+        } else {
+            collectionView.insertItems(at: indexPaths)
+        }
+
+        /*
         //collectionView.performBatchUpdates({ [weak self] in
-            //self?.collectionView.reloadItems(at: indexPaths)
             indexPaths.forEach { (indexPath) in
                 if indexPath.item > collectionView.numberOfItems(inSection: 0) - 1 {
                     collectionView.insertItems(at: [indexPath])
                     print("inserted")
                 }
             }
-        //})
-        
-        /*
-        tableView.beginUpdates()
-        indexPaths.forEach { (indexPath) in
-          if indexPath.row > tableView.numberOfRows(inSection: 0) - 1 {
-            tableView.insertRows(at: [indexPath], with: .none)
-          }
-        }
-        tableView.endUpdates()
+        //})  { [weak self] _ in
+        //    self?.collectionView.collectionViewLayout.invalidateLayout()
+        //}
         */
         
-        //collectionView.reloadItems(at: indexPaths)
+        // это работало както
         // TODO pagination
         /*
         collectionView.performBatchUpdates({ [weak self] in
@@ -197,20 +192,4 @@ extension HeadlinesViewController {
         })
         */
     }
-    
-    /*
-    func reloadItemIfNeeded(itemIndexPath indexPath: IndexPath) {
-        guard collectionView.indexPathsForVisibleItems.contains(indexPath) else {
-            return
-        }
-        
-        guard !collectionView.isDecelerating, !collectionView.isDragging else {
-            return
-        }
-        
-        collectionView.performBatchUpdates({ [weak self] in
-            self?.collectionView.reloadItems(at: [indexPath])
-        })
-    }
-    */
 }

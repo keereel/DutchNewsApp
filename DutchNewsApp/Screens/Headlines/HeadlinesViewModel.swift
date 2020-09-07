@@ -53,9 +53,12 @@ final class HeadlinesViewModelImpl: HeadlinesViewModel {
     
     func loadItems(lastIndexPath: IndexPath?, completion: @escaping (Result<[IndexPath], Error>) -> Void) {
         //
-        apiClient.fetchHeadlines(page: 1) { (result) in
+        apiClient.fetchHeadlines(page: 1) { [weak self] (result) in
             switch result {
             case .success(let headlinesResponse):
+                self?.updateDataSourceAndUI(with: headlinesResponse.articles,
+                                      forPageNumber: 1,
+                                      completion: completion)
                 /*
                 self.items.append(contentsOf: headlinesResponse.articles)
                 print("HeadlinesViewModelImpl.loadItems success")
@@ -65,6 +68,7 @@ final class HeadlinesViewModelImpl: HeadlinesViewModel {
                  }
                 */
                 
+                /*
                 // stopped here 20200906 2114
                 let page = 1 // TODO calculate page when implement pagination
                 let firstIndexOnPage = self.minIndex(onPage: page)
@@ -78,12 +82,48 @@ final class HeadlinesViewModelImpl: HeadlinesViewModel {
                     }
                   }
                 }
+                */
                 
             case .failure(let error):
                 // TODO
-                //print("error \(error)")
-                completion(Result.failure(error))
+                DispatchQueue.main.async {
+                    completion(Result.failure(error))
+                }
             }
+        }
+    }
+    
+    
+    private func updateDataSourceAndUI(with fetchedItems: [Article],
+                                       forPageNumber page: Int,
+                                       completion: @escaping (Result<[IndexPath], Error>) -> Void) {
+        guard fetchedItems.count > 0 else {
+            DispatchQueue.main.async {
+                completion(Result.success([]))
+            }
+            return
+        }
+        
+        // update dataSource
+        let firstIndexOnPage = minIndex(onPage: page)
+        let lastIndexOnPage = firstIndexOnPage + fetchedItems.count - 1
+        itemsQueue.sync(flags: .barrier) {
+            for index in firstIndexOnPage...lastIndexOnPage {
+                if self.items.count - 1 < index {
+                    self.items.append(fetchedItems[index-firstIndexOnPage])
+                } else {
+                    self.items[index] = fetchedItems[index-firstIndexOnPage]
+                }
+            }
+        }
+        
+        // update UI
+        var indexPaths: [IndexPath] = []
+        for index in firstIndexOnPage...lastIndexOnPage {
+            indexPaths.append(IndexPath(row: index, section: 0))
+        }
+        DispatchQueue.main.async {
+            completion(Result.success(indexPaths))
         }
     }
     
@@ -93,8 +133,7 @@ final class HeadlinesViewModelImpl: HeadlinesViewModel {
         let item = items[indexPath.row]
         
         cell.configure(title: item.title ?? "", source: item.source.name ?? "", width: width)
-        
-        //cell.setTitle(item.title ?? "")
+
     }
     
     // MARK: Helpers
