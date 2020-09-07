@@ -11,6 +11,8 @@ import UIKit
 
 final class HeadlinesFlowLayout: UICollectionViewFlowLayout {
     
+    //private var webViewHeight
+    
     private var cellSpacing: CGFloat {
         return minimumInteritemSpacing
     }
@@ -25,11 +27,6 @@ final class HeadlinesFlowLayout: UICollectionViewFlowLayout {
     */
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        /*
-        if headerAttributes.frame.intersects(rect) {
-            return [headerAttributes]
-        }
-        */
         guard let attributes = super.layoutAttributesForElements(in: rect) else { return nil }
         
         var updatedAttributes = [UICollectionViewLayoutAttributes]()
@@ -41,16 +38,17 @@ final class HeadlinesFlowLayout: UICollectionViewFlowLayout {
                 print("@  .cell \(itemAttributes.indexPath)")
                 updatedAttributes.append(itemAttributes)
             } else if itemAttributes.representedElementCategory == .supplementaryView {
-                print("@  .supple \(itemAttributes.indexPath)")
+                print("@  .supple indexPath \(itemAttributes.indexPath)")
                 if let swAttributes = self.layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, at: itemAttributes.indexPath) {
                     swAttributes.indexPath = IndexPath(item: 3, section: 0)
                     updatedAttributes.append(swAttributes)
-                    print("@  OK .supple \(itemAttributes.indexPath)")
+                    print("@  OK .supple frame \(itemAttributes.frame)")
+                    print("@  OK .supple indexPath \(itemAttributes.indexPath)")
                 }
-                
             }
         }
         
+        // for top alignment of two-column cells
         var minYInRow: CGFloat = 0
         var someBottomPointInRow: CGFloat = 0
         var currentRow: [UICollectionViewLayoutAttributes] = []
