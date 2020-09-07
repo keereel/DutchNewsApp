@@ -11,8 +11,6 @@ import UIKit
 
 final class HeadlinesFlowLayout: UICollectionViewFlowLayout {
     
-    //var headerAttributes: UICollectionViewLayoutAttributes!
-    
     private var cellSpacing: CGFloat {
         return minimumInteritemSpacing
     }
@@ -32,15 +30,34 @@ final class HeadlinesFlowLayout: UICollectionViewFlowLayout {
             return [headerAttributes]
         }
         */
+        guard let attributes = super.layoutAttributesForElements(in: rect) else { return nil }
         
-        var attributes = super.layoutAttributesForElements(in: rect)
+        var updatedAttributes = [UICollectionViewLayoutAttributes]()
         
-        //print("INVOKED HeadlinesFlowLayout.layoutAttributesForElements")
+        print("INVOKED HeadlinesFlowLayout.layoutAttributesForElements")
+        
+        for itemAttributes in attributes {
+            if itemAttributes.representedElementCategory == .cell {
+                print("@  .cell \(itemAttributes.indexPath)")
+                updatedAttributes.append(itemAttributes)
+            } else if itemAttributes.representedElementCategory == .supplementaryView {
+                print("@  .supple \(itemAttributes.indexPath)")
+                if let swAttributes = self.layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, at: itemAttributes.indexPath) {
+                    swAttributes.indexPath = IndexPath(item: 3, section: 0)
+                    updatedAttributes.append(swAttributes)
+                    print("@  OK .supple \(itemAttributes.indexPath)")
+                }
+                
+            }
+        }
         
         var minYInRow: CGFloat = 0
         var someBottomPointInRow: CGFloat = 0
         var currentRow: [UICollectionViewLayoutAttributes] = []
-        attributes?.forEach { (itemAttributes) in
+        updatedAttributes.forEach { (itemAttributes) in
+            if itemAttributes.representedElementCategory == .supplementaryView {
+                return
+            }
             //print("  \(itemAttributes.indexPath.item) attribute.frame \(itemAttributes.frame.origin)")
             if itemAttributes.frame.origin.y >= someBottomPointInRow {
                 //print("  new row, old minYInRow \(minYInRow)")
@@ -65,26 +82,19 @@ final class HeadlinesFlowLayout: UICollectionViewFlowLayout {
             currenRowItemAttributes.frame.origin.y = minYInRow
         }
         
-        
+        /*
         // attempt show supplementary
         print("attributes before appended: \(attributes?.count)")
         let ip = IndexPath(item: 3, section: 0)
         var supAttrs = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: "test2", with: ip)
         print("supAttrs.frame \(supAttrs.frame)")
-        supAttrs.frame = CGRect(x: 0, y: 0, width: 375, height: 100)
-        //supAttrs.size = CGSize(width: 375, height: 150)
+        //supAttrs.frame = CGRect(x: 0, y: 0, width: 375, height: 100)
+        supAttrs.size = CGSize(width: 375, height: 150)
         attributes?.append(supAttrs)
         print("attributes after appended: \(attributes?.count)")
-        /*
-        if let attrs2 = self.layoutAttributesForSupplementaryView(ofKind: "test2", at: ip) {
-            //attrs2.indexPath
-            attributes?.append(attrs2)
-        }
         */
-        //
         
-        
-        return attributes
+        return updatedAttributes
     }
     
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {

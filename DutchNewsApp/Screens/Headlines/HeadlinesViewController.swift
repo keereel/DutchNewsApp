@@ -14,7 +14,7 @@ class HeadlinesViewController: UIViewController {
         //let collectionViewLayout = UICollectionViewFlowLayout()
         let flowLayout = HeadlinesFlowLayout()
         //collectionViewLayout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
-        //collectionViewLayout.itemSize = CGSize(width: 60, height: 60)
+        
         flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         flowLayout.minimumLineSpacing = 1
         flowLayout.minimumInteritemSpacing = 1
@@ -32,7 +32,8 @@ class HeadlinesViewController: UIViewController {
         collectionView.register(HeadlinesSecondRowCell.self, forCellWithReuseIdentifier: HeadlinesSecondRowCell.identifier)
         collectionView.register(HeadlinesRegularCell.self, forCellWithReuseIdentifier: HeadlinesRegularCell.identifier)
         
-        collectionView.register(HeadlinesWebView.self, forSupplementaryViewOfKind: "test2", withReuseIdentifier: "ident")
+        //collectionView.register(HeadlinesWebView.self, forSupplementaryViewOfKind: "test2", withReuseIdentifier: "ident")
+        collectionView.register(HeadlinesWebView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeadlinesWebView.identifier)
         
         //collectionView.automaticallyAdjustsScrollIndicatorInsets = true
         //collectionView.backgroundColor = .clear
@@ -126,15 +127,20 @@ extension HeadlinesViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
-        guard let headerView = collectionView.dequeueReusableSupplementaryView(
-            ofKind: "test2",
-            withReuseIdentifier: "ident",
+        print("collectionView.viewForSupplementaryElementOfKind indexPath \(indexPath)")
+        
+        guard let supplementaryView = collectionView.dequeueReusableSupplementaryView(
+            //ofKind: "test2",
+            ofKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: HeadlinesWebView.identifier,
             for: indexPath) as? HeadlinesWebView
             else {
                 return UICollectionReusableView()
         }
         
-        return headerView
+        print("collectionView.viewForSupplementaryElementOfKind OK indexPath \(indexPath)")
+        
+        return supplementaryView
 
     }
 }
@@ -161,6 +167,14 @@ extension HeadlinesViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets.zero
     }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 2.0
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: 80.0)
+    }
 }
 
 // MARK: - Load
@@ -186,26 +200,5 @@ extension HeadlinesViewController {
         } else {
             collectionView.insertItems(at: indexPaths)
         }
-
-        /*
-        //collectionView.performBatchUpdates({ [weak self] in
-            indexPaths.forEach { (indexPath) in
-                if indexPath.item > collectionView.numberOfItems(inSection: 0) - 1 {
-                    collectionView.insertItems(at: [indexPath])
-                    print("inserted")
-                }
-            }
-        //})  { [weak self] _ in
-        //    self?.collectionView.collectionViewLayout.invalidateLayout()
-        //}
-        */
-        
-        // это работало както
-        // TODO pagination
-        /*
-        collectionView.performBatchUpdates({ [weak self] in
-            self?.collectionView.reloadItems(at: indexPaths)
-        })
-        */
     }
 }

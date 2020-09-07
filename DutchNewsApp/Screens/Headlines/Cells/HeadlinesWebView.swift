@@ -12,7 +12,7 @@ import WebKit
 final class HeadlinesWebView: UICollectionReusableView {
     
     //private var webView: WKWebView = WKWebView()
-    private var webView: UIImageView = UIImageView()
+    private var webView: UIView = UIView()
     
     // MARK: - Init
     override init(frame: CGRect) {
@@ -38,12 +38,10 @@ final class HeadlinesWebView: UICollectionReusableView {
     private func setConstraints() {
             webView.translatesAutoresizingMaskIntoConstraints = false
             let imageViewConstraints: [NSLayoutConstraint] = [
-                webView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor),
-                webView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor),
-                webView.trailingAnchor.constraint(equalTo: trailingAnchor),
+                webView.topAnchor.constraint(equalTo: topAnchor),
+                webView.bottomAnchor.constraint(equalTo: bottomAnchor),
                 webView.leadingAnchor.constraint(equalTo: leadingAnchor),
-                //imageView.widthAnchor.constraint(equalToConstant: 200),
-                //imageView.heightAnchor.constraint(equalToConstant: 100),
+                webView.trailingAnchor.constraint(equalTo: trailingAnchor),
             ]
             imageViewConstraints.forEach { $0.priority = .required }
             NSLayoutConstraint.activate(imageViewConstraints)
