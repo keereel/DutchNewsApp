@@ -31,6 +31,9 @@ class HeadlinesViewController: UIViewController {
         collectionView.register(HeadlinesFirstRowCell.self, forCellWithReuseIdentifier: HeadlinesFirstRowCell.identifier)
         collectionView.register(HeadlinesSecondRowCell.self, forCellWithReuseIdentifier: HeadlinesSecondRowCell.identifier)
         collectionView.register(HeadlinesRegularCell.self, forCellWithReuseIdentifier: HeadlinesRegularCell.identifier)
+        
+        collectionView.register(HeadlinesWebView.self, forSupplementaryViewOfKind: "test2", withReuseIdentifier: "ident")
+        
         //collectionView.automaticallyAdjustsScrollIndicatorInsets = true
         //collectionView.backgroundColor = .clear
         
@@ -81,7 +84,6 @@ class HeadlinesViewController: UIViewController {
 extension HeadlinesViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //return 10
         return viewModel.count
     }
 
@@ -120,6 +122,20 @@ extension HeadlinesViewController: UICollectionViewDataSource {
             
             return headlineCell
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        guard let headerView = collectionView.dequeueReusableSupplementaryView(
+            ofKind: "test2",
+            withReuseIdentifier: "ident",
+            for: indexPath) as? HeadlinesWebView
+            else {
+                return UICollectionReusableView()
+        }
+        
+        return headerView
+
     }
 }
 

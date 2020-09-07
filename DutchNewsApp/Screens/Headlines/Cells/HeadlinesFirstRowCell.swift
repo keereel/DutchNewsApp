@@ -36,6 +36,7 @@ final class HeadlinesFirstRowCell: UICollectionViewCell {
         
         titleView.font = UIFont.systemFont(ofSize: 21, weight: UIFont.Weight.bold)
         //titleView.backgroundColor = .green
+        titleView.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         
         setConstraints()
     }

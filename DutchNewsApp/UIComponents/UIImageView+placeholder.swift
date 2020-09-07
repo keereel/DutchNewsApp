@@ -11,10 +11,10 @@ import UIKit
 extension UIImageView {
     func setPlaceholder() {
         let img = UIImage(named: "no-photo")!.withRenderingMode(.alwaysTemplate)
+        clipsToBounds = true
         tintColor = .white
-        //backgroundColor = .black
         backgroundColor = .gray
-        contentMode = .scaleAspectFit
+        contentMode = .center
         image = img
     }
 }

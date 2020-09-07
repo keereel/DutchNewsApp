@@ -11,12 +11,29 @@ import UIKit
 
 final class HeadlinesFlowLayout: UICollectionViewFlowLayout {
     
+    //var headerAttributes: UICollectionViewLayoutAttributes!
+    
     private var cellSpacing: CGFloat {
         return minimumInteritemSpacing
     }
     
+    /*
+    override func prepare() {
+        headerAttributes = UICollectionViewLayoutAttributes(
+            forSupplementaryViewOfKind: "ident",
+            with: IndexPath(item: 0, section: 0))
+        headerAttributes.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
+    }
+    */
+    
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        let attributes = super.layoutAttributesForElements(in: rect)
+        /*
+        if headerAttributes.frame.intersects(rect) {
+            return [headerAttributes]
+        }
+        */
+        
+        var attributes = super.layoutAttributesForElements(in: rect)
         
         //print("INVOKED HeadlinesFlowLayout.layoutAttributesForElements")
         
@@ -48,10 +65,28 @@ final class HeadlinesFlowLayout: UICollectionViewFlowLayout {
             currenRowItemAttributes.frame.origin.y = minYInRow
         }
         
+        
+        // attempt show supplementary
+        print("attributes before appended: \(attributes?.count)")
+        let ip = IndexPath(item: 3, section: 0)
+        var supAttrs = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: "test2", with: ip)
+        print("supAttrs.frame \(supAttrs.frame)")
+        supAttrs.frame = CGRect(x: 0, y: 0, width: 375, height: 100)
+        //supAttrs.size = CGSize(width: 375, height: 150)
+        attributes?.append(supAttrs)
+        print("attributes after appended: \(attributes?.count)")
+        /*
+        if let attrs2 = self.layoutAttributesForSupplementaryView(ofKind: "test2", at: ip) {
+            //attrs2.indexPath
+            attributes?.append(attrs2)
+        }
+        */
+        //
+        
+        
         return attributes
     }
     
-    /*
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         
         print("INVOKED HeadlinesFlowLayout.layoutAttributesForItem")
@@ -60,5 +95,14 @@ final class HeadlinesFlowLayout: UICollectionViewFlowLayout {
         
         return itemAttributes
     }
-    */
+    
+    
+    override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        
+        let itemAttributes = super.layoutAttributesForSupplementaryView(ofKind: elementKind, at: indexPath)
+        
+        return itemAttributes
+        
+    }
+    
 }
