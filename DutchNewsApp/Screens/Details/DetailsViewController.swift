@@ -25,14 +25,10 @@ final class DetailsViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.setContentOffset(.zero, animated: false)
         collectionView.isPagingEnabled = true
-        //
-        //collectionView.backgroundColor = .yellow
-        //
         
         collectionView.dataSource = self
         collectionView.delegate = self
         
-        //collectionView.prefetchDataSource = self
         collectionView.register(DetailsCell.self, forCellWithReuseIdentifier: DetailsCell.identifier)
         
         //collectionView.automaticallyAdjustsScrollIndicatorInsets = true

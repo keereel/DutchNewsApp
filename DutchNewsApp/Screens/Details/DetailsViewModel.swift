@@ -16,21 +16,13 @@ protocol DetailsViewModel {
     
     func item(for indexPath: IndexPath) -> Article
     
-    func loadItems(lastIndexPath: IndexPath?, completion: @escaping (Result<[IndexPath], Error>) -> Void)
-    
     func configure(cell: DetailsCellOutput, indexPath: IndexPath, width: CGFloat)
 }
 
 final class DetailsViewModelImpl: DetailsViewModel {
-
-    private let firstPageIndex = 1
-    private let objectsPerPage = 10
     
     let initialIndexPath: IndexPath
     
-    private let apiClient: NewsApiClient = NewsApiClientImpl()
-    
-    private let itemsQueue = DispatchQueue(label: "DetailsViewModel.itemsQueue", attributes: .concurrent)
     private var items: [Article] = []
     var count: Int {
         items.count
@@ -50,79 +42,7 @@ final class DetailsViewModelImpl: DetailsViewModel {
     }
     
     private func item(for index: Int) -> Article {
-        itemsQueue.sync(flags: .barrier) {
-            return items[index]
-        }
-    }
-    
-    // MARK: - Fetch data
-    
-    func loadItems(lastIndexPath: IndexPath?, completion: @escaping (Result<[IndexPath], Error>) -> Void) {
-        //
-        apiClient.fetchHeadlines(page: 1) { [weak self] (result) in
-            switch result {
-            case .success(let headlinesResponse):
-                self?.updateDataSourceAndUI(with: headlinesResponse.articles,
-                                      forPageNumber: 1,
-                                      completion: completion)
-                
-                /*
-                // stopped here 20200906 2114
-                let page = 1 // TODO calculate page when implement pagination
-                let firstIndexOnPage = self.minIndex(onPage: page)
-                let lastIndexOnPage = firstIndexOnPage + self.items.count - 1
-                objectsQueue.sync(flags: .barrier) {
-                  for index in firstIndexOnPage...lastIndexOnPage {
-                    if self.objects.count - 1 < index {
-                      self.objects.append(artObjects[index-firstIndexOnPage])
-                    } else {
-                      self.objects[index] = artObjects[index-firstIndexOnPage]
-                    }
-                  }
-                }
-                */
-                
-            case .failure(let error):
-                // TODO
-                DispatchQueue.main.async {
-                    completion(Result.failure(error))
-                }
-            }
-        }
-    }
-    
-    
-    private func updateDataSourceAndUI(with fetchedItems: [Article],
-                                       forPageNumber page: Int,
-                                       completion: @escaping (Result<[IndexPath], Error>) -> Void) {
-        guard fetchedItems.count > 0 else {
-            DispatchQueue.main.async {
-                completion(Result.success([]))
-            }
-            return
-        }
-        
-        // update dataSource
-        let firstIndexOnPage = minIndex(onPage: page)
-        let lastIndexOnPage = firstIndexOnPage + fetchedItems.count - 1
-        itemsQueue.sync(flags: .barrier) {
-            for index in firstIndexOnPage...lastIndexOnPage {
-                if self.items.count - 1 < index {
-                    self.items.append(fetchedItems[index-firstIndexOnPage])
-                } else {
-                    self.items[index] = fetchedItems[index-firstIndexOnPage]
-                }
-            }
-        }
-        
-        // update UI
-        var indexPaths: [IndexPath] = []
-        for index in firstIndexOnPage...lastIndexOnPage {
-            indexPaths.append(IndexPath(row: index, section: 0))
-        }
-        DispatchQueue.main.async {
-            completion(Result.success(indexPaths))
-        }
+        return items[index]
     }
     
     // MARK: - Configure cells
@@ -130,17 +50,12 @@ final class DetailsViewModelImpl: DetailsViewModel {
     func configure(cell: DetailsCellOutput, indexPath: IndexPath, width: CGFloat) {
         let item = items[indexPath.row]
         
-        cell.configure(title: item.title ?? "", source: item.source.name ?? "", width: width)
+        cell.configure(title: item.title ?? "",
+                       description: item.description ?? "",
+                       author: item.author ?? "",
+                       url: item.url ?? "",
+                       source: item.source.name ?? "",
+                       width: width)
         cell.setImagePath(item.urlToImage)
-    }
-    
-    // MARK: - Helpers
-    
-    func minIndex(onPage page: Int) -> Int {
-      return (page - firstPageIndex) * objectsPerPage
-    }
-    
-    func maxIndex(onPage page: Int) -> Int {
-      return (page - firstPageIndex + 1) * objectsPerPage - 1
     }
 }

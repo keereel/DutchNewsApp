@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0CFE6D1B993D10341351A46E /* Pods_DutchNewsAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57E4FC5F66168F503721963E /* Pods_DutchNewsAppTests.framework */; };
 		B806964A2507F364006E9DAC /* LargeTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80696492507F364006E9DAC /* LargeTitleLabel.swift */; };
+		B806964D25081097006E9DAC /* String+NSRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = B806964C25081097006E9DAC /* String+NSRange.swift */; };
 		B806C64E250544080052A36E /* TitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B806C64D250544080052A36E /* TitleLabel.swift */; };
 		B806C651250544C80052A36E /* HeadlinesCellOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = B806C650250544C80052A36E /* HeadlinesCellOutput.swift */; };
 		B8190F082506D2D900E36DB6 /* headlinesResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = B8190F072506D2D900E36DB6 /* headlinesResponse.json */; };
@@ -67,6 +68,7 @@
 		5C053BCD49B54F4665026336 /* Pods-DutchNewsAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DutchNewsAppTests.debug.xcconfig"; path = "Target Support Files/Pods-DutchNewsAppTests/Pods-DutchNewsAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		80416B4CC9D2C5069E3112FA /* Pods-DutchNewsApp-DutchNewsAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DutchNewsApp-DutchNewsAppUITests.release.xcconfig"; path = "Target Support Files/Pods-DutchNewsApp-DutchNewsAppUITests/Pods-DutchNewsApp-DutchNewsAppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B80696492507F364006E9DAC /* LargeTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeTitleLabel.swift; sourceTree = "<group>"; };
+		B806964C25081097006E9DAC /* String+NSRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+NSRange.swift"; sourceTree = "<group>"; };
 		B806C64D250544080052A36E /* TitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleLabel.swift; sourceTree = "<group>"; };
 		B806C650250544C80052A36E /* HeadlinesCellOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlinesCellOutput.swift; sourceTree = "<group>"; };
 		B8190F072506D2D900E36DB6 /* headlinesResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = headlinesResponse.json; sourceTree = "<group>"; tabWidth = 4; };
@@ -160,6 +162,15 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		B806964B2508106C006E9DAC /* OtherExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				B8B9EC722501725D00226503 /* Cell+Identifier.swift */,
+				B806964C25081097006E9DAC /* String+NSRange.swift */,
+			);
+			path = OtherExtensions;
+			sourceTree = "<group>";
+		};
 		B806C64F250544A60052A36E /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -210,6 +221,7 @@
 				B81D02B8250027FC001C76B2 /* Models */,
 				B81D02B52500221D001C76B2 /* Networking */,
 				B8B9EC8325053C6400226503 /* UIComponents */,
+				B806964B2508106C006E9DAC /* OtherExtensions */,
 				B89620362506974D0063C8EF /* Resources */,
 				B81D0285250009C8001C76B2 /* AppDelegate.swift */,
 				B81D0293250009CC001C76B2 /* Info.plist */,
@@ -312,7 +324,6 @@
 				B806C64D250544080052A36E /* TitleLabel.swift */,
 				B8B9EC8625053CB400226503 /* UIColor+Extension.swift */,
 				B8962032250645F50063C8EF /* UIImageView+placeholder.swift */,
-				B8B9EC722501725D00226503 /* Cell+Identifier.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
@@ -572,6 +583,7 @@
 				B81D028A250009C8001C76B2 /* HeadlinesViewController.swift in Sources */,
 				B8962033250645F50063C8EF /* UIImageView+placeholder.swift in Sources */,
 				B8B9EC8225053B0F00226503 /* SourceLabel.swift in Sources */,
+				B806964D25081097006E9DAC /* String+NSRange.swift in Sources */,
 				B83F4F72250146F5006DC824 /* HTTPURLResponse+successStatusCode.swift in Sources */,
 				B81D0286250009C8001C76B2 /* AppDelegate.swift in Sources */,
 				B83F4F742501471E006DC824 /* DataResponseError.swift in Sources */,
