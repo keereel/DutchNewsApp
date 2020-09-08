@@ -27,25 +27,25 @@ final class HeadlinesFlowLayout: UICollectionViewFlowLayout {
     */
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        guard let attributes = super.layoutAttributesForElements(in: rect) else { return nil }
+        guard let attributes = super.layoutAttributesForElements(in: rect) else {
+            return nil
+        }
         
-        print("INVOKED HeadlinesFlowLayout.layoutAttributesForElements")
-        
+        //print("INVOKED HeadlinesFlowLayout.layoutAttributesForElements")
         var updatedAttributes = [UICollectionViewLayoutAttributes]()
         var webViewAttributes: UICollectionViewLayoutAttributes?
         
         for itemAttributes in attributes {
             if itemAttributes.representedElementCategory == .cell {
-                print("@  .cell \(itemAttributes.indexPath)")
+                //print("@  .cell \(itemAttributes.indexPath)")
                 updatedAttributes.append(itemAttributes)
             } else if itemAttributes.representedElementCategory == .supplementaryView {
-                print("@  .supple indexPath \(itemAttributes.indexPath)")
+                //print("@  .supple indexPath \(itemAttributes.indexPath)")
                 if let webViewUpdatedAttributes = self.layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, at: itemAttributes.indexPath) {
                     webViewUpdatedAttributes.indexPath = webViewIndexPath
                     webViewAttributes = webViewUpdatedAttributes
-                    //updatedAttributes.append(webViewUpdatedAttributes)
-                    print("@  OK .supple frame \(itemAttributes.frame)")
-                    print("@  OK .supple indexPath \(itemAttributes.indexPath)")
+                    //print("@  OK .supple frame \(itemAttributes.frame)")
+                    //print("@  OK .supple indexPath \(itemAttributes.indexPath)")
                 }
             }
         }
@@ -64,6 +64,7 @@ final class HeadlinesFlowLayout: UICollectionViewFlowLayout {
             }
             
             webViewAttributes.frame.origin.y = maxY + cellSpacing
+            // Eventually, append modified webViewAttributes to attributes array
             updatedAttributes.append(webViewAttributes)
         }
         
@@ -99,7 +100,6 @@ final class HeadlinesFlowLayout: UICollectionViewFlowLayout {
             currenRowItemAttributes.frame.origin.y = minYInRow
         }
         
-        
         /*
         // attempt show supplementary
         print("attributes before appended: \(attributes?.count)")
@@ -130,7 +130,5 @@ final class HeadlinesFlowLayout: UICollectionViewFlowLayout {
         let itemAttributes = super.layoutAttributesForSupplementaryView(ofKind: elementKind, at: indexPath)
         
         return itemAttributes
-        
     }
-    
 }

@@ -17,6 +17,10 @@ extension UIColor {
         return UIColor.white
     }
     
+    class var baseTintColor: UIColor {
+        return UIColor.white
+    }
+    
     class var blueDark: UIColor {
         return UIColor(red: 0, green: 0.388, blue: 0.561, alpha: 1)
     }

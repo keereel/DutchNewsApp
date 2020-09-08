@@ -30,6 +30,7 @@ final class HeadlinesWebView: UICollectionReusableView {
     
         webView.navigationDelegate = self
         webView.scrollView.isScrollEnabled = false
+        webView.backgroundColor = UIColor.baseBackgroundColor
         
         if let url = Bundle.main.url(forResource: "embeddedWeb", withExtension: "html") {
             webView.loadFileURL(url, allowingReadAccessTo: url.deletingLastPathComponent())

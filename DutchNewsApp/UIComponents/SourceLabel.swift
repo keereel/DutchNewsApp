@@ -10,10 +10,7 @@ import UIKit
 
 final class SourceLabel: UILabel {
     
-    private var topInset: CGFloat = 4
-    private var bottomInset: CGFloat = 4
-    private var leftInset: CGFloat = 4
-    private var rightInset: CGFloat = 4
+    private var insets: UIEdgeInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -34,20 +31,19 @@ final class SourceLabel: UILabel {
     }
     
     override func drawText(in rect: CGRect) {
-        let insets = UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
         super.drawText(in: rect.inset(by: insets))
     }
     
     override var intrinsicContentSize: CGSize {
         let size = super.intrinsicContentSize
-        return CGSize(width: size.width + leftInset + rightInset,
-                      height: size.height + topInset + bottomInset)
+        return CGSize(width: size.width + insets.left + insets.right,
+                      height: size.height + insets.top + insets.bottom)
     }
 
     override var bounds: CGRect {
         didSet {
             // ensures this works within stack views if multi-line
-            preferredMaxLayoutWidth = bounds.width - (leftInset + rightInset)
+            preferredMaxLayoutWidth = bounds.width - (insets.left + insets.right)
         }
     }
 }

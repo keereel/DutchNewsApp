@@ -13,35 +13,44 @@ class HeadlinesViewController: UIViewController {
     private var viewModel: HeadlinesViewModel!
     
     private lazy var collectionView: UICollectionView = {
-        //let collectionViewLayout = UICollectionViewFlowLayout()
         let flowLayout = HeadlinesFlowLayout()
-        //collectionViewLayout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
-        
         flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         flowLayout.minimumLineSpacing = 1
         flowLayout.minimumInteritemSpacing = 1
         flowLayout.scrollDirection = .vertical
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        //
-        collectionView.backgroundColor = .blue
-        //
-        
         collectionView.dataSource = self
         collectionView.delegate = self
         //collectionView.prefetchDataSource = self
+        //collectionView.alwaysBounceVertical = true
+        collectionView.refreshControl = self.refreshControl
+        
         collectionView.register(HeadlinesFirstRowCell.self, forCellWithReuseIdentifier: HeadlinesFirstRowCell.identifier)
         collectionView.register(HeadlinesSecondRowCell.self, forCellWithReuseIdentifier: HeadlinesSecondRowCell.identifier)
         collectionView.register(HeadlinesRegularCell.self, forCellWithReuseIdentifier: HeadlinesRegularCell.identifier)
         
-        //collectionView.register(HeadlinesWebView.self, forSupplementaryViewOfKind: "test2", withReuseIdentifier: "ident")
         collectionView.register(HeadlinesWebView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeadlinesWebView.identifier)
         
         //collectionView.automaticallyAdjustsScrollIndicatorInsets = true
-        //collectionView.backgroundColor = .clear
+        collectionView.backgroundColor = .clear
         
         return collectionView
     }()
+    
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor.baseTintColor
+        refreshControl.addTarget(self, action: #selector(refreshControlPulled), for: .valueChanged)
+        
+        return refreshControl
+    }()
+    
+    @objc private func refreshControlPulled() {
+        collectionView.refreshControl?.beginRefreshing()
+        loadItems(lastIndexPath: nil)
+        collectionView.refreshControl?.endRefreshing()
+    }
 
     init(viewModel: HeadlinesViewModel) {
         super.init(nibName: nil, bundle: nil)
@@ -61,6 +70,7 @@ class HeadlinesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //collectionView.addSubview(refreshControl)
         view.addSubview(collectionView)
         setConstraints()
         
@@ -90,8 +100,9 @@ extension HeadlinesViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        switch indexPath.item {
+        print("HeadlinesViewController.cellForItemAt indexPath: \(indexPath)")
         
+        switch indexPath.item {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HeadlinesFirstRowCell.identifier, for: indexPath)
             guard let headlineCell = cell as? HeadlinesFirstRowCell else {
@@ -153,22 +164,37 @@ extension HeadlinesViewController: UICollectionViewDelegate {
         
         navigationController?.pushViewController(detailsViewController, animated: true)
     }
+    
+    /*
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        print("HeadlinesViewController.willDisplay indexPath: \(indexPath)")
+        if indexPath.item == viewModel.count - 1 {
+            print("LOAD!")
+            for aa in collectionView.indexPathsForVisibleItems {
+                print("  \(aa.item)")
+            }
+        }
+    }
+    */
 }
 // MARK: - UICollectionViewDelegateFlowLayout
 extension HeadlinesViewController: UICollectionViewDelegateFlowLayout {
 
     /*
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        /*
         switch indexPath.row {
         //case 0:
         //    return CGSize(width: collectionView.bounds.width, height: 50)
         default:
             return CGSize(width: collectionView.bounds.width/2, height: 20)
         }
-        
+        */
+        //return UICollectionViewFlowLayout.automaticSize
     }
     */
- 
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 1.0
     }
@@ -186,6 +212,22 @@ extension HeadlinesViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+/*
+// MARK: - UICollectionViewDataSourcePrefetching
+extension HeadlinesViewController: UICollectionViewDataSourcePrefetching {
+
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        
+        print("@INVOKED HeadlinesViewController.prefetchItemsAt")
+        
+        for indexPath in indexPaths {
+            print("@ indexPath \(indexPath)")
+            //loadArtObject(at: indexPath)
+        }
+    }
+}
+*/
+ 
 // MARK: - Load
 extension HeadlinesViewController {
     
@@ -199,11 +241,13 @@ extension HeadlinesViewController {
                 print("error \(error)")
                 //self?.alertService.showMessage(error.description, viewController: self)
             }
+            self?.collectionView.refreshControl?.endRefreshing()
         }
     }
     
     func refreshCollectionView(indexPaths: [IndexPath]) {
         print("  indexPaths.count:\(indexPaths.count)")
+        //collectionView.collectionViewLayout.invalidateLayout()
         guard indexPaths.count > 0 else { return }
         if indexPaths[0].item == 0 {
             collectionView.reloadData()
