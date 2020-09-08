@@ -65,12 +65,9 @@ class HeadlinesViewController: UIViewController {
         print("DEINIT HeadlinesViewController")
     }
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //collectionView.addSubview(refreshControl)
         view.addSubview(collectionView)
         setConstraints()
         
@@ -99,8 +96,6 @@ extension HeadlinesViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        print("HeadlinesViewController.cellForItemAt indexPath: \(indexPath)")
         
         switch indexPath.item {
         case 0:
@@ -135,8 +130,6 @@ extension HeadlinesViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
-        print("collectionView.viewForSupplementaryElementOfKind indexPath \(indexPath)")
-        
         guard let supplementaryView = collectionView.dequeueReusableSupplementaryView(
             ofKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: HeadlinesWebView.identifier,
@@ -145,10 +138,7 @@ extension HeadlinesViewController: UICollectionViewDataSource {
                 return UICollectionReusableView()
         }
         
-        print("collectionView.viewForSupplementaryElementOfKind OK indexPath \(indexPath)")
-        
         return supplementaryView
-
     }
 }
 
@@ -162,12 +152,12 @@ extension HeadlinesViewController: UICollectionViewDelegate {
         navigationController?.pushViewController(detailsViewController, animated: true)
     }
     
+    // TODO implement pagination resolve issues
     /*
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
         print("HeadlinesViewController.willDisplay indexPath: \(indexPath)")
         if indexPath.item == viewModel.count - 1 {
-            print("LOAD!")
             for aa in collectionView.indexPathsForVisibleItems {
                 print("  \(aa.item)")
             }
@@ -177,20 +167,6 @@ extension HeadlinesViewController: UICollectionViewDelegate {
 }
 // MARK: - UICollectionViewDelegateFlowLayout
 extension HeadlinesViewController: UICollectionViewDelegateFlowLayout {
-
-    /*
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        /*
-        switch indexPath.row {
-        //case 0:
-        //    return CGSize(width: collectionView.bounds.width, height: 50)
-        default:
-            return CGSize(width: collectionView.bounds.width/2, height: 20)
-        }
-        */
-        //return UICollectionViewFlowLayout.automaticSize
-    }
-    */
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 1.0
@@ -209,6 +185,7 @@ extension HeadlinesViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// TODO implement pagination: prefetching didnt work with self-sized cells
 /*
 // MARK: - UICollectionViewDataSourcePrefetching
 extension HeadlinesViewController: UICollectionViewDataSourcePrefetching {

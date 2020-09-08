@@ -36,7 +36,6 @@ final class HeadlinesSecondRowCell: UICollectionViewCell {
         contentView.addSubview(titleView)
         contentView.addSubview(sourceView)
         
-        //titleView.backgroundColor = .green
         backgroundColor = .baseBackgroundColor
         setConstraints()
     }
@@ -101,16 +100,6 @@ final class HeadlinesSecondRowCell: UICollectionViewCell {
 
         
     }
-    
-    /*
-    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-        
-        titleView.preferredMaxLayoutWidth = layoutAttributes.size.width - contentView.layoutMargins.left - contentView.layoutMargins.left
-        layoutAttributes.bounds.size.height = systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
-        return layoutAttributes
-    }
-    */
-    
 }
 
 extension HeadlinesSecondRowCell: HeadlinesCellOutput {
@@ -119,7 +108,6 @@ extension HeadlinesSecondRowCell: HeadlinesCellOutput {
         titleView.text = title
         sourceView.text = source
         
-        print("HeadlinesSecondRowCell width = \(width)")
         widthConstraint.constant = width
         widthConstraint.isActive = true
     }
@@ -138,6 +126,6 @@ extension HeadlinesSecondRowCell: HeadlinesCellOutput {
         let resizingProcessor = ResizingImageProcessor(referenceSize: CGSize(width: 100 * scale, height: 100 * scale), mode: .aspectFill)
         imageView.kf.indicatorType = .activity
         imageView.kf.setImage(with: url, options: [.backgroundDecode,
-                                                   .processor(resizingProcessor)])
+                                                .processor(resizingProcessor)])
     }
 }

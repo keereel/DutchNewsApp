@@ -36,7 +36,6 @@ final class HeadlinesRegularCell: UICollectionViewCell {
         contentView.addSubview(titleView)
         contentView.addSubview(sourceView)
         
-        //titleView.backgroundColor = .green
         backgroundColor = .baseBackgroundColor
         setConstraints()
     }
@@ -48,8 +47,6 @@ final class HeadlinesRegularCell: UICollectionViewCell {
         let imageViewConstraints: [NSLayoutConstraint] = [
             imageView.trailingAnchor.constraint(equalTo: contentViewMargins.trailingAnchor),
             imageView.centerYAnchor.constraint(equalTo: contentViewMargins.centerYAnchor),
-            //imageView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor),
-            //imageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor),
             imageView.widthAnchor.constraint(equalTo: contentViewMargins.widthAnchor, multiplier: 0.4),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 16/9)
         ]
@@ -72,7 +69,6 @@ final class HeadlinesRegularCell: UICollectionViewCell {
             titleView.topAnchor.constraint(equalTo: sourceView.bottomAnchor,
                                            constant: contentSpacing.vertical),
             titleView.bottomAnchor.constraint(equalTo: contentViewMargins.bottomAnchor),
-            //titleView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ]
         titleViewConstraints.forEach { $0.priority = .required }
         NSLayoutConstraint.activate(titleViewConstraints)
@@ -107,7 +103,6 @@ extension HeadlinesRegularCell: HeadlinesCellOutput {
         titleView.text = title
         sourceView.text = source
         
-        print("HeadlinesSecondRowCell width = \(width)")
         widthConstraint.constant = width
         widthConstraint.isActive = true
     }

@@ -64,31 +64,6 @@ final class HeadlinesViewModelImpl: HeadlinesViewModel {
                 self?.updateDataSourceAndUI(with: headlinesResponse.articles,
                                       forPageNumber: 1,
                                       completion: completion)
-                /*
-                self.items.append(contentsOf: headlinesResponse.articles)
-                print("HeadlinesViewModelImpl.loadItems success")
-                headlinesResponse.articles.forEach{ print("  \($0.title)")}
-                 DispatchQueue.main.async {
-                     completion(Result.success([]))
-                 }
-                */
-                
-                /*
-                // stopped here 20200906 2114
-                let page = 1 // TODO calculate page when implement pagination
-                let firstIndexOnPage = self.minIndex(onPage: page)
-                let lastIndexOnPage = firstIndexOnPage + self.items.count - 1
-                objectsQueue.sync(flags: .barrier) {
-                  for index in firstIndexOnPage...lastIndexOnPage {
-                    if self.objects.count - 1 < index {
-                      self.objects.append(artObjects[index-firstIndexOnPage])
-                    } else {
-                      self.objects[index] = artObjects[index-firstIndexOnPage]
-                    }
-                  }
-                }
-                */
-                
             case .failure(let error):
                 DispatchQueue.main.async {
                     completion(Result.failure(error))
@@ -96,7 +71,6 @@ final class HeadlinesViewModelImpl: HeadlinesViewModel {
             }
         }
     }
-    
     
     private func updateDataSourceAndUI(with fetchedItems: [Article],
                                        forPageNumber page: Int,
@@ -114,9 +88,9 @@ final class HeadlinesViewModelImpl: HeadlinesViewModel {
         itemsQueue.sync(flags: .barrier) {
             for index in firstIndexOnPage...lastIndexOnPage {
                 if self.items.count - 1 < index {
-                    self.items.append(fetchedItems[index-firstIndexOnPage])
+                    self.items.append(fetchedItems[index - firstIndexOnPage])
                 } else {
-                    self.items[index] = fetchedItems[index-firstIndexOnPage]
+                    self.items[index] = fetchedItems[index - firstIndexOnPage]
                 }
             }
         }

@@ -31,16 +31,12 @@ final class DetailsViewController: UIViewController {
         
         collectionView.register(DetailsCell.self, forCellWithReuseIdentifier: DetailsCell.identifier)
         
-        //collectionView.automaticallyAdjustsScrollIndicatorInsets = true
-        //collectionView.backgroundColor = .clear
-        
         return collectionView
     }()
     
     init(viewModel: DetailsViewModel) {
         super.init(nibName: nil, bundle: nil)
         self.viewModel = viewModel
-        print("init DetailsViewModel items: \(viewModel.count)")
     }
 
     required init?(coder: NSCoder) {
@@ -107,8 +103,6 @@ extension DetailsViewController: UICollectionViewDataSource {
             return cell
         }
         
-        print("@DetailsViewController cellForItemAt \(indexPath)")
-        //detailsCell.backgroundColor = .blue
         viewModel.configure(cell: detailsCell, indexPath: indexPath, width: collectionView.bounds.width)
         
         return detailsCell

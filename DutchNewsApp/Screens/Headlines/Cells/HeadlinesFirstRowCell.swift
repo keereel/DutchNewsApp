@@ -97,7 +97,6 @@ extension HeadlinesFirstRowCell: HeadlinesCellOutput {
         titleView.text = title
         sourceView.text = source
         
-        print("HeadlinesFirstRowCell width = \(width)")
         widthConstraint.constant = width
         widthConstraint.isActive = true
     }
@@ -119,5 +118,3 @@ extension HeadlinesFirstRowCell: HeadlinesCellOutput {
                                                    .processor(resizingProcessor)])
     }
 }
-
-

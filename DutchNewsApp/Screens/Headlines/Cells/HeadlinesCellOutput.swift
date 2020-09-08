@@ -10,7 +10,5 @@ import UIKit
 
 protocol HeadlinesCellOutput: AnyObject {
     func setImagePath(_ imagePath: String?)
-    //func setTitle(_ text: String)
-    //func setDescription(_ text: String?)
     func configure(title: String, source: String, width: CGFloat)
 }
