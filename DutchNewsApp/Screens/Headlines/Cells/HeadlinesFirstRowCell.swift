@@ -12,7 +12,7 @@ import Kingfisher
 final class HeadlinesFirstRowCell: UICollectionViewCell {
     
     private var imageView: UIImageView = UIImageView()
-    private var titleView: UILabel = TitleLabel()
+    private var titleView: UILabel = LargeTitleLabel()
     private var sourceView: UILabel = SourceLabel()
     
     private var widthConstraint: NSLayoutConstraint!
@@ -33,10 +33,6 @@ final class HeadlinesFirstRowCell: UICollectionViewCell {
         contentView.addSubview(imageView)
         contentView.addSubview(titleView)
         contentView.addSubview(sourceView)
-        
-        titleView.font = UIFont.systemFont(ofSize: 21, weight: UIFont.Weight.bold)
-        //titleView.backgroundColor = .green
-        titleView.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         
         setConstraints()
     }

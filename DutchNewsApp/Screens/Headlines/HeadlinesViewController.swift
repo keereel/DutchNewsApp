@@ -109,7 +109,6 @@ extension HeadlinesViewController: UICollectionViewDataSource {
                 return cell
             }
 
-            headlineCell.backgroundColor = .yellow
             viewModel.configure(cell: headlineCell, indexPath: indexPath, width: collectionView.bounds.width)
             
             return headlineCell
@@ -119,7 +118,6 @@ extension HeadlinesViewController: UICollectionViewDataSource {
                 return cell
             }
 
-            headlineCell.backgroundColor = .yellow
             viewModel.configure(cell: headlineCell, indexPath: indexPath, width: collectionView.bounds.width/2 - 0.5)
             
             return headlineCell
@@ -129,7 +127,6 @@ extension HeadlinesViewController: UICollectionViewDataSource {
                 return cell
             }
 
-            headlineCell.backgroundColor = .yellow
             viewModel.configure(cell: headlineCell, indexPath: indexPath, width: collectionView.bounds.width)
             
             return headlineCell

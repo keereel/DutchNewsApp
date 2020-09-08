@@ -17,6 +17,8 @@ final class HeadlinesRegularCell: UICollectionViewCell {
     
     private var widthConstraint: NSLayoutConstraint!
     
+    private let contentSpacing: UIOffset = UIOffset(horizontal: 4, vertical: 4)
+    
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,19 +36,21 @@ final class HeadlinesRegularCell: UICollectionViewCell {
         contentView.addSubview(titleView)
         contentView.addSubview(sourceView)
         
-        titleView.backgroundColor = .green
-        
+        //titleView.backgroundColor = .green
+        backgroundColor = .baseBackgroundColor
         setConstraints()
     }
     
     private func setConstraints() {
+        let contentViewMargins = contentView.layoutMarginsGuide
+        
         imageView.translatesAutoresizingMaskIntoConstraints = false
         let imageViewConstraints: [NSLayoutConstraint] = [
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            imageView.trailingAnchor.constraint(equalTo: contentViewMargins.trailingAnchor),
+            imageView.centerYAnchor.constraint(equalTo: contentViewMargins.centerYAnchor),
             //imageView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor),
             //imageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor),
-            imageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.4),
+            imageView.widthAnchor.constraint(equalTo: contentViewMargins.widthAnchor, multiplier: 0.4),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 16/9)
         ]
         imageViewConstraints.forEach { $0.priority = .required }
@@ -54,24 +58,24 @@ final class HeadlinesRegularCell: UICollectionViewCell {
         
         sourceView.translatesAutoresizingMaskIntoConstraints = false
         let sourceViewConstraints: [NSLayoutConstraint] = [
-            sourceView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            sourceView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+            sourceView.topAnchor.constraint(equalTo: contentViewMargins.topAnchor),
+            sourceView.leadingAnchor.constraint(equalTo: contentViewMargins.leadingAnchor)
         ]
         sourceViewConstraints.forEach { $0.priority = .defaultHigh }
         NSLayoutConstraint.activate(sourceViewConstraints)
         
         titleView.translatesAutoresizingMaskIntoConstraints = false
         let titleViewConstraints: [NSLayoutConstraint] = [
-            titleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            titleView.trailingAnchor.constraint(equalTo: imageView.leadingAnchor),
-            //titleView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            titleView.topAnchor.constraint(equalTo: sourceView.bottomAnchor),
-            titleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            titleView.leadingAnchor.constraint(equalTo: contentViewMargins.leadingAnchor),
+            titleView.trailingAnchor.constraint(equalTo: imageView.leadingAnchor,
+                                                constant: -contentSpacing.horizontal),
+            titleView.topAnchor.constraint(equalTo: sourceView.bottomAnchor,
+                                           constant: contentSpacing.vertical),
+            titleView.bottomAnchor.constraint(equalTo: contentViewMargins.bottomAnchor),
             //titleView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ]
         titleViewConstraints.forEach { $0.priority = .required }
         NSLayoutConstraint.activate(titleViewConstraints)
-        
         
         contentView.translatesAutoresizingMaskIntoConstraints = false
         let contentViewConstraints: [NSLayoutConstraint] = [

@@ -20,9 +20,9 @@ final class DetailsCell: UICollectionViewCell {
     private var titleView: UILabel = TitleLabel()
     private var sourceView: UILabel = SourceLabel()
     
-    private let contentSpacing: UIOffset = UIOffset(horizontal: 8, vertical: 8)
-    
     private var widthConstraint: NSLayoutConstraint!
+    
+    private let contentSpacing: UIOffset = UIOffset(horizontal: 8, vertical: 8)
  
     // MARK: - Init
     override init(frame: CGRect) {
@@ -50,6 +50,7 @@ final class DetailsCell: UICollectionViewCell {
     
     private func setConstraints() {
         let contentViewMargins = contentView.layoutMarginsGuide
+        
         imageView.translatesAutoresizingMaskIntoConstraints = false
         //contentView.layoutMarginsGuide.lea
         let imageViewConstraints: [NSLayoutConstraint] = [
