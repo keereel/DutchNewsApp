@@ -51,19 +51,23 @@ final class HeadlinesFlowLayout: UICollectionViewFlowLayout {
         }
         
         
-        // move supplementary view to proper position
+        // Move supplementary view to proper position, which assigned in webViewIndexPath
         if let webViewAttributes = webViewAttributes {
+            var maxY: CGFloat = 0
+            
             for itemAttributes in updatedAttributes {
                 guard itemAttributes.representedElementCategory != .supplementaryView else { continue }
                 guard itemAttributes.indexPath.item < webViewIndexPath.item else { break }
                     
                 itemAttributes.frame.origin.y = itemAttributes.frame.origin.y - webViewAttributes.frame.height
-
+                maxY = max(maxY, itemAttributes.frame.maxY)
             }
+            
+            webViewAttributes.frame.origin.y = maxY + cellSpacing
             updatedAttributes.append(webViewAttributes)
         }
         
-        // for top alignment of two-column cells
+        // Top alignment of two-column cells. This mechanism works not for only items with index 1 and 2, but for all items, which arranged in two columns
         var minYInRow: CGFloat = 0
         var someBottomPointInRow: CGFloat = 0
         var currentRow: [UICollectionViewLayoutAttributes] = []

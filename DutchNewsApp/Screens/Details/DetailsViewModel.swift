@@ -1,15 +1,15 @@
 //
-//  HeadlinesViewModel.swift
+//  DetailsViewModel.swift
 //  DutchNewsApp
 //
-//  Created by Kirill Sedykh on 04.09.2020.
+//  Created by Kirill Sedykh on 08.09.2020.
 //  Copyright © 2020 Kirill Sedykh. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-protocol HeadlinesViewModel {
+protocol DetailsViewModel {
     var count: Int { get }
     
     func item(for indexPath: IndexPath) -> Article
@@ -19,7 +19,7 @@ protocol HeadlinesViewModel {
     func configure(cell: HeadlinesCellOutput, indexPath: IndexPath, width: CGFloat)
 }
 
-final class HeadlinesViewModelImpl: HeadlinesViewModel {
+final class DetailsViewModelImpl: DetailsViewModel {
 
     private let firstPageIndex = 1
     private let objectsPerPage = 10
@@ -36,7 +36,7 @@ final class HeadlinesViewModelImpl: HeadlinesViewModel {
     }
     
     deinit {
-        print("DEINIT HeadlinesViewModel")
+        print("DEINIT DetailsViewModel")
     }
     
     func item(for indexPath: IndexPath) -> Article {
@@ -59,14 +59,6 @@ final class HeadlinesViewModelImpl: HeadlinesViewModel {
                 self?.updateDataSourceAndUI(with: headlinesResponse.articles,
                                       forPageNumber: 1,
                                       completion: completion)
-                /*
-                self.items.append(contentsOf: headlinesResponse.articles)
-                print("HeadlinesViewModelImpl.loadItems success")
-                headlinesResponse.articles.forEach{ print("  \($0.title)")}
-                 DispatchQueue.main.async {
-                     completion(Result.success([]))
-                 }
-                */
                 
                 /*
                 // stopped here 20200906 2114
