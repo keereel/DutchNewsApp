@@ -16,7 +16,7 @@ protocol DetailsViewModel {
     
     func loadItems(lastIndexPath: IndexPath?, completion: @escaping (Result<[IndexPath], Error>) -> Void)
     
-    func configure(cell: HeadlinesCellOutput, indexPath: IndexPath, width: CGFloat)
+    func configure(cell: DetailsCellOutput, indexPath: IndexPath, width: CGFloat)
 }
 
 final class DetailsViewModelImpl: DetailsViewModel {
@@ -24,15 +24,16 @@ final class DetailsViewModelImpl: DetailsViewModel {
     private let firstPageIndex = 1
     private let objectsPerPage = 10
     
-    
     private let apiClient: NewsApiClient = NewsApiClientImpl()
     
-    private let itemsQueue = DispatchQueue(label: "HeadlinesViewModel.itemsQueue", attributes: .concurrent)
-    
+    private let itemsQueue = DispatchQueue(label: "DetailsViewModel.itemsQueue", attributes: .concurrent)
     private var items: [Article] = []
-    
     var count: Int {
         items.count
+    }
+    
+    init(items: [Article]) {
+        self.items = items
     }
     
     deinit {
@@ -49,7 +50,7 @@ final class DetailsViewModelImpl: DetailsViewModel {
         }
     }
     
-    // MARK: Fetch data
+    // MARK: - Fetch data
     
     func loadItems(lastIndexPath: IndexPath?, completion: @escaping (Result<[IndexPath], Error>) -> Void) {
         //
@@ -119,16 +120,16 @@ final class DetailsViewModelImpl: DetailsViewModel {
         }
     }
     
-    // MARK: Configure cells
+    // MARK: - Configure cells
     
-    func configure(cell: HeadlinesCellOutput, indexPath: IndexPath, width: CGFloat) {
+    func configure(cell: DetailsCellOutput, indexPath: IndexPath, width: CGFloat) {
         let item = items[indexPath.row]
         
         cell.configure(title: item.title ?? "", source: item.source.name ?? "", width: width)
         cell.setImagePath(item.urlToImage)
     }
     
-    // MARK: Helpers
+    // MARK: - Helpers
     
     func minIndex(onPage page: Int) -> Int {
       return (page - firstPageIndex) * objectsPerPage

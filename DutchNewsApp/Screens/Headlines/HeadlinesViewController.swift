@@ -9,7 +9,9 @@
 import UIKit
 
 class HeadlinesViewController: UIViewController {
-
+    
+    private var viewModel: HeadlinesViewModel!
+    
     private lazy var collectionView: UICollectionView = {
         //let collectionViewLayout = UICollectionViewFlowLayout()
         let flowLayout = HeadlinesFlowLayout()
@@ -40,8 +42,6 @@ class HeadlinesViewController: UIViewController {
         
         return collectionView
     }()
-    
-    private var viewModel: HeadlinesViewModel!
 
     init(viewModel: HeadlinesViewModel) {
         super.init(nibName: nil, bundle: nil)
@@ -49,7 +49,7 @@ class HeadlinesViewController: UIViewController {
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
     deinit {
@@ -62,7 +62,6 @@ class HeadlinesViewController: UIViewController {
         super.viewDidLoad()
         
         view.addSubview(collectionView)
-        
         setConstraints()
         
         loadItems(lastIndexPath: nil)
@@ -130,7 +129,6 @@ extension HeadlinesViewController: UICollectionViewDataSource {
         print("collectionView.viewForSupplementaryElementOfKind indexPath \(indexPath)")
         
         guard let supplementaryView = collectionView.dequeueReusableSupplementaryView(
-            //ofKind: "test2",
             ofKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: HeadlinesWebView.identifier,
             for: indexPath) as? HeadlinesWebView
@@ -145,6 +143,15 @@ extension HeadlinesViewController: UICollectionViewDataSource {
     }
 }
 
+// MARK: - UICollectionViewDelegate
+extension HeadlinesViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) { 
+        let detailsAssembly = DetailsAssembly()
+        let detailsViewController = detailsAssembly.assemble(items: viewModel.allItems())
+        
+        navigationController?.pushViewController(detailsViewController, animated: true)
+    }
+}
 // MARK: - UICollectionViewDelegateFlowLayout
 extension HeadlinesViewController: UICollectionViewDelegateFlowLayout {
 
@@ -161,7 +168,7 @@ extension HeadlinesViewController: UICollectionViewDelegateFlowLayout {
     */
  
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
+        return 1.0
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

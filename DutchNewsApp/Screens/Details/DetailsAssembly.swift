@@ -11,9 +11,9 @@ import UIKit
 
 final class DetailsAssembly {
     
-    func assemble() -> UIViewController {
-        let viewModel = HeadlinesViewModelImpl()
-        let controller = HeadlinesViewController(viewModel: viewModel)
+    func assemble(items: [Article]) -> UIViewController {
+        let viewModel = DetailsViewModelImpl(items: items)
+        let controller = DetailsViewController(viewModel: viewModel)
         
         return controller
     }

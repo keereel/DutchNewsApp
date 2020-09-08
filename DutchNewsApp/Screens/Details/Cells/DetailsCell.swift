@@ -108,7 +108,7 @@ extension DetailsCell: DetailsCellOutput {
         titleView.text = title
         sourceView.text = source
         
-        print("HeadlinesFirstRowCell width = \(width)")
+        print("@DetailsCell width = \(width)")
         widthConstraint.constant = width
         widthConstraint.isActive = true
     }

@@ -11,23 +11,23 @@ import UIKit
 
 final class DetailsViewController: UIViewController {
     
+    private var viewModel: DetailsViewModel!
+    
     private lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collectionView.setContentOffset(.zero, animated: false)
         //
-        collectionView.backgroundColor = .orange
+        collectionView.backgroundColor = .yellow
         //
         
-        //collectionView.dataSource = self
-        //collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.delegate = self
         
         //collectionView.prefetchDataSource = self
-        collectionView.register(HeadlinesFirstRowCell.self, forCellWithReuseIdentifier: HeadlinesFirstRowCell.identifier)
-        
-        //collectionView.register(HeadlinesWebView.self, forSupplementaryViewOfKind: "test2", withReuseIdentifier: "ident")
-        collectionView.register(HeadlinesWebView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeadlinesWebView.identifier)
+        collectionView.register(DetailsCell.self, forCellWithReuseIdentifier: DetailsCell.identifier)
         
         //collectionView.automaticallyAdjustsScrollIndicatorInsets = true
         //collectionView.backgroundColor = .clear
@@ -35,5 +35,76 @@ final class DetailsViewController: UIViewController {
         return collectionView
     }()
     
+    init(viewModel: DetailsViewModel) {
+        super.init(nibName: nil, bundle: nil)
+        self.viewModel = viewModel
+        print("init DetailsViewModel items: \(viewModel.count)")
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
     
+    deinit {
+        print("DEINIT DetailsViewController")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    
+        view.addSubview(collectionView)
+        view.backgroundColor = .orange
+        setConstraints()
+        
+        collectionView.reloadData()
+    }
+    
+    private func setConstraints() {
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        let collectionViewConstraints: [NSLayoutConstraint] = [
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ]
+        NSLayoutConstraint.activate(collectionViewConstraints)
+    }
+}
+
+
+extension DetailsViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+            return CGSize(width: UIScreen.main.bounds.width, height: collectionView.frame.size.height)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+}
+
+
+extension DetailsViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        /*
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailsCell.identifier, for: indexPath) as? DetailsCell else {
+            return UICollectionViewCell()
+        }
+        */
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailsCell.identifier, for: indexPath)
+        guard let detailsCell = cell as? DetailsCell else {
+            return cell
+        }
+        
+        print("@DetailsViewController cellForItemAt \(indexPath)")
+        
+        detailsCell.backgroundColor = .blue
+        viewModel.configure(cell: detailsCell, indexPath: indexPath, width: collectionView.bounds.width)
+        
+        return detailsCell
+    }
 }

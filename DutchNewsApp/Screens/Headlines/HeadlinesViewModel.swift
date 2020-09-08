@@ -14,6 +14,8 @@ protocol HeadlinesViewModel {
     
     func item(for indexPath: IndexPath) -> Article
     
+    func allItems() -> [Article]
+    
     func loadItems(lastIndexPath: IndexPath?, completion: @escaping (Result<[IndexPath], Error>) -> Void)
     
     func configure(cell: HeadlinesCellOutput, indexPath: IndexPath, width: CGFloat)
@@ -24,13 +26,10 @@ final class HeadlinesViewModelImpl: HeadlinesViewModel {
     private let firstPageIndex = 1
     private let objectsPerPage = 10
     
-    
     private let apiClient: NewsApiClient = NewsApiClientImpl()
     
     private let itemsQueue = DispatchQueue(label: "HeadlinesViewModel.itemsQueue", attributes: .concurrent)
-    
     private var items: [Article] = []
-    
     var count: Int {
         items.count
     }
@@ -43,13 +42,19 @@ final class HeadlinesViewModelImpl: HeadlinesViewModel {
         return item(for: indexPath.row)
     }
     
+    func allItems() -> [Article] {
+        itemsQueue.sync(flags: .barrier) {
+            return items
+        }
+    }
+    
     private func item(for index: Int) -> Article {
         itemsQueue.sync(flags: .barrier) {
             return items[index]
         }
     }
     
-    // MARK: Fetch data
+    // MARK: - Fetch data
     
     func loadItems(lastIndexPath: IndexPath?, completion: @escaping (Result<[IndexPath], Error>) -> Void) {
         //
@@ -127,7 +132,7 @@ final class HeadlinesViewModelImpl: HeadlinesViewModel {
         }
     }
     
-    // MARK: Configure cells
+    // MARK: - Configure cells
     
     func configure(cell: HeadlinesCellOutput, indexPath: IndexPath, width: CGFloat) {
         let item = items[indexPath.row]
@@ -136,7 +141,7 @@ final class HeadlinesViewModelImpl: HeadlinesViewModel {
         cell.setImagePath(item.urlToImage)
     }
     
-    // MARK: Helpers
+    // MARK: - Helpers
     
     func minIndex(onPage page: Int) -> Int {
       return (page - firstPageIndex) * objectsPerPage
