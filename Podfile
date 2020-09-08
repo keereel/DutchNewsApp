@@ -11,6 +11,8 @@ target 'DutchNewsApp' do
   # Image caching
   pod 'Kingfisher'
 
+  pod 'Swifter'
+
   target 'DutchNewsAppTests' do
     inherit! :search_paths
     # Pods for testing

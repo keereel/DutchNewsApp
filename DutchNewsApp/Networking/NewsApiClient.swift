@@ -18,9 +18,10 @@ final class NewsApiClientImpl: NewsApiClient {
     
     private let session: URLSession
     private let apiKey = "fc69f71be70c4af78f93ecf90cbfbb1e"
-    //https://newsapi.org/v2/top-headlines?country=nl&apiKey=fc69f71be70c4af78f93ecf90cbfbb1e&page=0
+    
     private var basePath: String {
         "https://newsapi.org/v2/top-headlines?country=nl&apiKey=\(apiKey)"
+        //"http://localhost:8383/v2/top-headlines?country=nl&apiKey=\(apiKey)"
     }
     
     init(session: URLSession = URLSession.shared) {
@@ -48,7 +49,7 @@ final class NewsApiClientImpl: NewsApiClient {
                     return
             }
             
-            guard var decodedResponse = try? JSONDecoder().decode(HeadlinesResponse.self, from: data) else {
+            guard let decodedResponse = try? JSONDecoder().decode(HeadlinesResponse.self, from: data) else {
                 completion(Result.failure(DataResponseError.decoding))
                 return
             }
