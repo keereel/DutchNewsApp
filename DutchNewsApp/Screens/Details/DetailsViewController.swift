@@ -13,6 +13,8 @@ final class DetailsViewController: UIViewController {
     
     private var viewModel: DetailsViewModel!
     
+    private var initialScrollDone: Bool = false
+    
     private lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
@@ -73,6 +75,15 @@ final class DetailsViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ]
         NSLayoutConstraint.activate(collectionViewConstraints)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if !initialScrollDone {
+            self.initialScrollDone = true
+            collectionView.scrollToItem(at: viewModel.initialIndexPath, at: .centeredHorizontally, animated: false)
+        }
     }
 }
 

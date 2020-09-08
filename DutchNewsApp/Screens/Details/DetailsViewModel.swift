@@ -12,6 +12,8 @@ import UIKit
 protocol DetailsViewModel {
     var count: Int { get }
     
+    var initialIndexPath: IndexPath { get }
+    
     func item(for indexPath: IndexPath) -> Article
     
     func loadItems(lastIndexPath: IndexPath?, completion: @escaping (Result<[IndexPath], Error>) -> Void)
@@ -24,6 +26,8 @@ final class DetailsViewModelImpl: DetailsViewModel {
     private let firstPageIndex = 1
     private let objectsPerPage = 10
     
+    let initialIndexPath: IndexPath
+    
     private let apiClient: NewsApiClient = NewsApiClientImpl()
     
     private let itemsQueue = DispatchQueue(label: "DetailsViewModel.itemsQueue", attributes: .concurrent)
@@ -32,8 +36,9 @@ final class DetailsViewModelImpl: DetailsViewModel {
         items.count
     }
     
-    init(items: [Article]) {
+    init(items: [Article], initialIndexPath: IndexPath) {
         self.items = items
+        self.initialIndexPath = initialIndexPath
     }
     
     deinit {

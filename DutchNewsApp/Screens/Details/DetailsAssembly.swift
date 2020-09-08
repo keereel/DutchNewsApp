@@ -11,8 +11,8 @@ import UIKit
 
 final class DetailsAssembly {
     
-    func assemble(items: [Article]) -> UIViewController {
-        let viewModel = DetailsViewModelImpl(items: items)
+    func assemble(items: [Article], for initialIndexPath: IndexPath) -> UIViewController {
+        let viewModel = DetailsViewModelImpl(items: items, initialIndexPath: initialIndexPath)
         let controller = DetailsViewController(viewModel: viewModel)
         
         return controller

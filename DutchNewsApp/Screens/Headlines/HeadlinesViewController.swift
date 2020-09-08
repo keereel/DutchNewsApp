@@ -146,9 +146,10 @@ extension HeadlinesViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 extension HeadlinesViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) { 
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailsAssembly = DetailsAssembly()
-        let detailsViewController = detailsAssembly.assemble(items: viewModel.allItems())
+        let detailsViewController = detailsAssembly.assemble(items: viewModel.allItems(), for: indexPath)
         
         navigationController?.pushViewController(detailsViewController, animated: true)
     }
@@ -187,6 +188,7 @@ extension HeadlinesViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - Load
 extension HeadlinesViewController {
+    
     func loadItems(lastIndexPath: IndexPath?) {
         viewModel.loadItems(lastIndexPath: lastIndexPath) { [weak self] (result: Result<[IndexPath], Error>) in
             switch result {
