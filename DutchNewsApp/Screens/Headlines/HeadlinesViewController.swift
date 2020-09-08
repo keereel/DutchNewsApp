@@ -68,12 +68,13 @@ class HeadlinesViewController: UIViewController {
     }
     
     private func setConstraints() {
+        let safeArea = view.safeAreaLayoutGuide
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         let collectionViewConstraints: [NSLayoutConstraint] = [
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ]
         NSLayoutConstraint.activate(collectionViewConstraints)
     }

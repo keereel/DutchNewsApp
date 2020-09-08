@@ -9,6 +9,14 @@
 import UIKit
 
 extension UIColor {
+    class var baseBackgroundColor: UIColor {
+        return UIColor.black
+    }
+    
+    class var baseTextColor: UIColor {
+        return UIColor.white
+    }
+    
     class var blueDark: UIColor {
         return UIColor(red: 0, green: 0.388, blue: 0.561, alpha: 1)
     }

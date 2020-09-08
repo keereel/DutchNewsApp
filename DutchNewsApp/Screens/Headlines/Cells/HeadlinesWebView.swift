@@ -12,7 +12,6 @@ import WebKit
 final class HeadlinesWebView: UICollectionReusableView {
     
     private var webView: WKWebView = WKWebView()
-    //private var webView: UIView = UIView()
     
     // MARK: - Init
     override init(frame: CGRect) {
@@ -29,8 +28,8 @@ final class HeadlinesWebView: UICollectionReusableView {
     private func setupCell() {
         addSubview(webView)
     
-        //webView.backgroundColor = .red
         webView.navigationDelegate = self
+        webView.scrollView.isScrollEnabled = false
         
         if let url = Bundle.main.url(forResource: "embeddedWeb", withExtension: "html") {
             webView.loadFileURL(url, allowingReadAccessTo: url.deletingLastPathComponent())
@@ -50,8 +49,6 @@ final class HeadlinesWebView: UICollectionReusableView {
         imageViewConstraints.forEach { $0.priority = .required }
         NSLayoutConstraint.activate(imageViewConstraints)
     }
-    
-
 }
 
 extension HeadlinesWebView: WKNavigationDelegate {

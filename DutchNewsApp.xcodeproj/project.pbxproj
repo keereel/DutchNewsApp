@@ -204,12 +204,11 @@
 		B81D0284250009C8001C76B2 /* DutchNewsApp */ = {
 			isa = PBXGroup;
 			children = (
-				B89620362506974D0063C8EF /* Resources */,
-				B8B9EC8325053C6400226503 /* UIComponents */,
 				B83F4F7525014FB2006DC824 /* Screens */,
 				B81D02B8250027FC001C76B2 /* Models */,
 				B81D02B52500221D001C76B2 /* Networking */,
-				B8B9EC712501723800226503 /* CommonExtensions */,
+				B8B9EC8325053C6400226503 /* UIComponents */,
+				B89620362506974D0063C8EF /* Resources */,
 				B81D0285250009C8001C76B2 /* AppDelegate.swift */,
 				B81D0293250009CC001C76B2 /* Info.plist */,
 			);
@@ -292,14 +291,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		B8B9EC712501723800226503 /* CommonExtensions */ = {
-			isa = PBXGroup;
-			children = (
-				B8B9EC722501725D00226503 /* Cell+Identifier.swift */,
-			);
-			path = CommonExtensions;
-			sourceTree = "<group>";
-		};
 		B8B9EC742501728900226503 /* Details */ = {
 			isa = PBXGroup;
 			children = (
@@ -318,6 +309,7 @@
 				B806C64D250544080052A36E /* TitleLabel.swift */,
 				B8B9EC8625053CB400226503 /* UIColor+Extension.swift */,
 				B8962032250645F50063C8EF /* UIImageView+placeholder.swift */,
+				B8B9EC722501725D00226503 /* Cell+Identifier.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";

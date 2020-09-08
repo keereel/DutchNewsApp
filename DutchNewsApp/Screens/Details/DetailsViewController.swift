@@ -16,11 +16,15 @@ final class DetailsViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
+        flowLayout.sectionInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
+        flowLayout.minimumLineSpacing = 0.0
+        flowLayout.minimumInteritemSpacing = 0.0
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.setContentOffset(.zero, animated: false)
+        collectionView.isPagingEnabled = true
         //
-        collectionView.backgroundColor = .yellow
+        //collectionView.backgroundColor = .yellow
         //
         
         collectionView.dataSource = self
@@ -53,19 +57,20 @@ final class DetailsViewController: UIViewController {
         super.viewDidLoad()
     
         view.addSubview(collectionView)
-        view.backgroundColor = .orange
+        view.backgroundColor = .black
         setConstraints()
         
         collectionView.reloadData()
     }
     
     private func setConstraints() {
+        let safeArea = view.safeAreaLayoutGuide
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         let collectionViewConstraints: [NSLayoutConstraint] = [
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ]
         NSLayoutConstraint.activate(collectionViewConstraints)
     }
@@ -90,19 +95,13 @@ extension DetailsViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        /*
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailsCell.identifier, for: indexPath) as? DetailsCell else {
-            return UICollectionViewCell()
-        }
-        */
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailsCell.identifier, for: indexPath)
         guard let detailsCell = cell as? DetailsCell else {
             return cell
         }
         
         print("@DetailsViewController cellForItemAt \(indexPath)")
-        
-        detailsCell.backgroundColor = .blue
+        //detailsCell.backgroundColor = .blue
         viewModel.configure(cell: detailsCell, indexPath: indexPath, width: collectionView.bounds.width)
         
         return detailsCell
