@@ -16,9 +16,9 @@ enum DataResponseError: Error {
     var description: String {
         switch self {
         case .network:
-            return "Unable to load art objects due to network connection issues"
+            return "Unable to load data due to network connection issues"
         case .decoding:
-            return "Unable to load art objects due to invalid data received from server"
+            return "Unable to load data due to invalid data received from server"
         case .invalidUrl:
             return "Unable to load data due to invalid URL"
         }

@@ -219,7 +219,6 @@ extension HeadlinesViewController: UICollectionViewDataSourcePrefetching {
         
         for indexPath in indexPaths {
             print("@ indexPath \(indexPath)")
-            //loadArtObject(at: indexPath)
         }
     }
 }
@@ -228,28 +227,36 @@ extension HeadlinesViewController: UICollectionViewDataSourcePrefetching {
 // MARK: - Load
 extension HeadlinesViewController {
     
-    func loadItems(lastIndexPath: IndexPath?) {
-        viewModel.loadItems(lastIndexPath: lastIndexPath) { [weak self] (result: Result<[IndexPath], Error>) in
+    private func loadItems(lastIndexPath: IndexPath?) {
+        viewModel.loadItems(lastIndexPath: lastIndexPath) { [weak self] (result: Result<[IndexPath], DataResponseError>) in
             switch result {
             case .success(let indexPaths):
                 self?.refreshCollectionView(indexPaths: indexPaths)
             case .failure(let error):
                 // TODO
                 print("error \(error)")
-                //self?.alertService.showMessage(error.description, viewController: self)
+                self?.showError(withText: error.description)
             }
             self?.collectionView.refreshControl?.endRefreshing()
         }
     }
     
-    func refreshCollectionView(indexPaths: [IndexPath]) {
+    private func refreshCollectionView(indexPaths: [IndexPath]) {
         print("  indexPaths.count:\(indexPaths.count)")
-        //collectionView.collectionViewLayout.invalidateLayout()
         guard indexPaths.count > 0 else { return }
         if indexPaths[0].item == 0 {
             collectionView.reloadData()
         } else {
             collectionView.insertItems(at: indexPaths)
         }
+    }
+    
+    private func showError(withText errorText: String) {
+        let alert = UIAlertController(title: nil, message: errorText, preferredStyle: .alert)
+        
+        let action: UIAlertAction = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(action)
+        
+        self.present(alert, animated: true)
     }
 }

@@ -16,7 +16,7 @@ protocol HeadlinesViewModel {
     
     func allItems() -> [Article]
     
-    func loadItems(lastIndexPath: IndexPath?, completion: @escaping (Result<[IndexPath], Error>) -> Void)
+    func loadItems(lastIndexPath: IndexPath?, completion: @escaping (Result<[IndexPath], DataResponseError>) -> Void)
     
     func configure(cell: HeadlinesCellOutput, indexPath: IndexPath, width: CGFloat)
 }
@@ -56,7 +56,7 @@ final class HeadlinesViewModelImpl: HeadlinesViewModel {
     
     // MARK: - Fetch data
     
-    func loadItems(lastIndexPath: IndexPath?, completion: @escaping (Result<[IndexPath], Error>) -> Void) {
+    func loadItems(lastIndexPath: IndexPath?, completion: @escaping (Result<[IndexPath], DataResponseError>) -> Void) {
         //
         apiClient.fetchHeadlines(page: 1) { [weak self] (result) in
             switch result {
@@ -90,7 +90,6 @@ final class HeadlinesViewModelImpl: HeadlinesViewModel {
                 */
                 
             case .failure(let error):
-                // TODO
                 DispatchQueue.main.async {
                     completion(Result.failure(error))
                 }
@@ -101,7 +100,7 @@ final class HeadlinesViewModelImpl: HeadlinesViewModel {
     
     private func updateDataSourceAndUI(with fetchedItems: [Article],
                                        forPageNumber page: Int,
-                                       completion: @escaping (Result<[IndexPath], Error>) -> Void) {
+                                       completion: @escaping (Result<[IndexPath], DataResponseError>) -> Void) {
         guard fetchedItems.count > 0 else {
             DispatchQueue.main.async {
                 completion(Result.success([]))
@@ -144,10 +143,10 @@ final class HeadlinesViewModelImpl: HeadlinesViewModel {
     // MARK: - Helpers
     
     func minIndex(onPage page: Int) -> Int {
-      return (page - firstPageIndex) * objectsPerPage
+        return (page - firstPageIndex) * objectsPerPage
     }
     
     func maxIndex(onPage page: Int) -> Int {
-      return (page - firstPageIndex + 1) * objectsPerPage - 1
+        return (page - firstPageIndex + 1) * objectsPerPage - 1
     }
 }
